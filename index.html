@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Snap2Cal - PDF to Google Calendar</title>
+    <title>Snap2Cal - One Snap. Zero Mental Load.</title>
     <script src="https://accounts.google.com/gsi/client" async defer></script>
     <style>
         * {
@@ -182,7 +182,7 @@
 <body>
     <div class="container">
         <h1>Snap2Cal</h1>
-        <p class="subtitle">Transform PDFs into Calendar Events</p>
+        <p class="subtitle">Transform Images into Calendar Events</p>
         
         <div id="googleSignIn"></div>
         <div id="signedInInfo" class="signed-in-info" style="display: none;"></div>
@@ -190,11 +190,11 @@
         <div class="upload-section" id="uploadSection">
             <input type="file" id="fileInput" accept=".pdf,image/*">
             <label for="fileInput" class="upload-label">
-                📄 Click to upload or drag & drop your PDF
+                📄 Click to upload an image
             </label>
         </div>
         
-        <button id="processBtn" disabled>Process PDF</button>
+        <button id="processBtn" disabled>Process Image</button>
         <button id="addToCalendarBtn" style="display: none;">Add Events to Calendar</button>
         
         <div id="status"></div>
@@ -203,7 +203,7 @@
         <div class="footer">
             <strong class="footer-company">Snap2Cal</strong><br>
             © 2025 AmandaMade Digital Studio<br>
-            <small>Note: Works best with image-based PDFs and event flyers</small>
+            <small>Note: Works best with images and image-based PDFs.</small>
         </div>
     </div>
 
