@@ -108,7 +108,7 @@ OpenAI performs best with image-based PDFs. If you have a text PDF with poor res
 
 ## License
 
-Copyright © 2024 Amanda Worsfold. All rights reserved.
+Copyright © 2025 Amanda Worsfold. All rights reserved.
 
 This code is provided for portfolio and demonstration purposes. Commercial use, distribution, or reproduction without explicit permission is prohibited.
 
