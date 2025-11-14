@@ -368,16 +368,28 @@
             try {
                 let successCount = 0;
                 let failCount = 0;
-                
+
+                // Get user's timezone
+                const timeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+
                 for (const event of extractedEvents) {
                     try {
+                        // Add timezone to event if using dateTime
+                        const calendarEvent = { ...event };
+                        if (calendarEvent.start && calendarEvent.start.dateTime) {
+                            calendarEvent.start.timeZone = timeZone;
+                        }
+                        if (calendarEvent.end && calendarEvent.end.dateTime) {
+                            calendarEvent.end.timeZone = timeZone;
+                        }
+
                         const response = await fetch('https://www.googleapis.com/calendar/v3/calendars/primary/events', {
                             method: 'POST',
                             headers: {
                                 'Authorization': `Bearer ${accessToken}`,
                                 'Content-Type': 'application/json',
                             },
-                            body: JSON.stringify(event)
+                            body: JSON.stringify(calendarEvent)
                         });
                         
                         if (response.ok) {
