@@ -21,45 +21,42 @@ Snap2Cal is a web application that uses AI to extract calendar events from PDF d
 4. **Review** the parsed events
 5. **Confirm** to add all events to your Google Calendar
 
-## Getting Started
+## Development Setup
 
 ### Prerequisites
 
 - A Google account
 - An OpenAI API key ([Get one here](https://platform.openai.com/api-keys))
-
-### Setup
-
-1. **Clone or download** this repository
-2. **Open** `index.html` in your web browser
-3. **Sign in** with Google
-4. **Enter your OpenAI API key** (stored locally in your browser)
-5. **Start uploading** documents!
+- Google Cloud Console project with Calendar API enabled
 
 ### Local Development
 
-No build process required! This is a standalone HTML file that runs entirely in the browser.
+1. **Clone this repository**
+   ```bash
+   git clone https://github.com/mominthefog/Snap2Cal.git
+   cd Snap2Cal
+   ```
 
-To run locally:
-```bash
-# Option 1: Open directly in browser
-open index.html
+2. **Configure Google OAuth**
+   - Go to [Google Cloud Console](https://console.cloud.google.com/)
+   - Create/select your project
+   - Enable **Google Calendar API**
+   - Create **OAuth 2.0 Client ID** (Web application)
+   - Add authorized JavaScript origins:
+     - `http://localhost:8000`
+     - `http://127.0.0.1:8000`
+   - Copy your Client ID and update it in `index.html` (line 72)
 
-# Option 2: Use a local server (recommended for development)
-python3 -m http.server 8000
-# Then visit http://localhost:8000
-```
+3. **Run locally**
+   ```bash
+   python3 -m http.server 8000
+   ```
+   Then visit: `http://localhost:8000`
 
-## Google Cloud Console Setup
-
-To use this app, you'll need to configure Google OAuth:
-
-1. Go to [Google Cloud Console](https://console.cloud.google.com/)
-2. Create a new project or select an existing one
-3. Enable the **Google Calendar API**
-4. Create **OAuth 2.0 credentials** (Web application)
-5. Add authorized JavaScript origins (e.g., `http://localhost:8000`)
-6. Update the `GOOGLE_CLIENT_ID` in `index.html` with your Client ID
+4. **Get your OpenAI API key**
+   - Visit [platform.openai.com/api-keys](https://platform.openai.com/api-keys)
+   - Create a new API key
+   - Enter it in the app (stored locally in your browser)
 
 ## Tech Stack
 
@@ -83,30 +80,42 @@ To use this app, you'll need to configure Google OAuth:
 - Events are added to your primary calendar only
 - No event editing before adding to calendar (planned for v2)
 
-## Future Enhancements
+## Roadmap
 
+### Version 2.0
+- [ ] Native iOS app for App Store distribution
+- [ ] Switch to Anthropic API for better PDF handling
 - [ ] Event editing interface
 - [ ] Multiple calendar selection
 - [ ] Recurring event detection
 - [ ] Batch file upload
-- [ ] Switch to Anthropic API for better PDF handling
 - [ ] Time zone selection
 - [ ] Event color coding
 
-## Contributing
+## Troubleshooting
 
-Contributions are welcome! Please feel free to submit issues or pull requests.
+### "Error 400: redirect_uri_mismatch"
+Make sure your Google Cloud Console authorized JavaScript origins match the URL you're accessing the app from (e.g., `http://localhost:8000`).
+
+### "Access blocked: This app's request is invalid"
+Your redirect URIs in Google Cloud Console don't match. Double-check both the port number and protocol (http://).
+
+### Events not parsing correctly
+OpenAI performs best with image-based PDFs. If you have a text PDF with poor results, try:
+1. Converting pages to images first
+2. Ensuring dates are in a clear format (MM/DD/YYYY)
+3. Checking that event information is visually distinct
 
 ## License
 
-MIT License - Feel free to use and modify as needed.
+Copyright © 2024 Amanda Worsfold. All rights reserved.
 
-## Support
+This code is provided for portfolio and demonstration purposes. Commercial use, distribution, or reproduction without explicit permission is prohibited.
 
-For issues or questions:
-- **Google Calendar API**: [Documentation](https://developers.google.com/calendar/api)
-- **OpenAI API**: [Documentation](https://platform.openai.com/docs)
+## Contact
+
+For questions or collaboration inquiries, please reach out via GitHub.
 
 ---
 
-Built with ❤️ using AI-powered document processing
+*Snap2Cal is currently in development. App Store release coming soon.*
