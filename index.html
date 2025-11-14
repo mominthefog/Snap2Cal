@@ -295,8 +295,11 @@
             }
         });
         
-        uploadSection.addEventListener('click', () => {
-            fileInput.click();
+        uploadSection.addEventListener('click', (e) => {
+            // Only trigger file input if clicking the section itself, not the file input
+            if (e.target === uploadSection || e.target.classList.contains('upload-label')) {
+                fileInput.click();
+            }
         });
         
         // Process PDF
