@@ -108,7 +108,7 @@ OpenAI performs best with image-based PDFs. If you have a text PDF with poor res
 
 ## License
 
-Copyright © 2025 Amanda Worsfold. All rights reserved.
+Copyright © 2025 Amanda Worsfold / AmandaMade Digital Studio. All rights reserved.
 
 This code is provided for portfolio and demonstration purposes. Commercial use, distribution, or reproduction without explicit permission is prohibited.
 
@@ -118,4 +118,5 @@ For questions or collaboration inquiries, please reach out via GitHub.
 
 ---
 
-*Snap2Cal is currently in development. App Store release coming soon.*
+*Snap2Cal is currently in development. App Store release coming soon.*  
+*Created by AmandaMade Digital Studio*
