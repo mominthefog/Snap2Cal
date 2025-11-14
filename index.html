@@ -215,35 +215,46 @@
         // Google Sign-In Configuration
         const CLIENT_ID = '406862514908-nio59o975hs7k038g3jo40tf51pelk7g.apps.googleusercontent.com';
         
- // Initialize Google Sign-In
-function initializeGoogleSignIn() {
-    // Use the token client directly for smoother auth
-    const tokenClient = google.accounts.oauth2.initTokenClient({
-        client_id: CLIENT_ID,
-        scope: 'https://www.googleapis.com/auth/calendar.events',
-        callback: (tokenResponse) => {
-            accessToken = tokenResponse.access_token;
-            localStorage.setItem('google_access_token', accessToken);
-            updateSignInStatus('Successfully signed in!');
-        },
-    });
-    
-    // Create sign-in button
-    const signInButton = document.createElement('button');
-    signInButton.textContent = 'Sign in with Google';
-    signInButton.onclick = () => {
-        tokenClient.requestAccessToken();
-    };
-    
-    document.getElementById('googleSignIn').appendChild(signInButton);
-    
-    // Try to restore previous session
-    const savedToken = localStorage.getItem('google_access_token');
-    if (savedToken) {
-        accessToken = savedToken;
-        updateSignInStatus('Signed in');
-    }
-}
+        // Initialize Google Sign-In
+        function initializeGoogleSignIn() {
+            // Use the token client directly for smoother auth
+            const tokenClient = google.accounts.oauth2.initTokenClient({
+                client_id: CLIENT_ID,
+                scope: 'https://www.googleapis.com/auth/calendar.events',
+                callback: (tokenResponse) => {
+                    accessToken = tokenResponse.access_token;
+                    localStorage.setItem('google_access_token', accessToken);
+                    updateSignInStatus('Successfully signed in!');
+                },
+            });
+            
+            // Create sign-in button
+            const signInButton = document.createElement('button');
+            signInButton.textContent = 'Sign in with Google';
+            signInButton.onclick = () => {
+                tokenClient.requestAccessToken();
+            };
+            
+            document.getElementById('googleSignIn').appendChild(signInButton);
+            
+            // Try to restore previous session
+            const savedToken = localStorage.getItem('google_access_token');
+            if (savedToken) {
+                accessToken = savedToken;
+                updateSignInStatus('Signed in');
+            }
+        }
+        
+        function updateSignInStatus(message) {
+            const signedInInfo = document.getElementById('signedInInfo');
+            const googleSignIn = document.getElementById('googleSignIn');
+            
+            if (accessToken) {
+                signedInInfo.textContent = message;
+                signedInInfo.style.display = 'block';
+                googleSignIn.style.display = 'none';
+            }
+        }
         
         // File Upload Handling
         const fileInput = document.getElementById('fileInput');
