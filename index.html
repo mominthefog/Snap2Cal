@@ -296,10 +296,16 @@
         });
         
         uploadSection.addEventListener('click', (e) => {
-            // Only trigger file input if clicking the section itself, not the file input
+            // Prevent double-triggering by only responding to direct clicks
             if (e.target === uploadSection || e.target.classList.contains('upload-label')) {
+                e.stopPropagation();
                 fileInput.click();
             }
+        });
+
+        // Prevent file input change from bubbling
+        fileInput.addEventListener('click', (e) => {
+            e.stopPropagation();
         });
         
         // Process PDF
