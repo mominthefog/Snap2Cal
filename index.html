@@ -151,6 +151,34 @@
         .event-details {
             color: #666;
             font-size: 0.9em;
+            margin-bottom: 10px;
+        }
+
+        .event-button {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 6px;
+            font-size: 0.9em;
+            cursor: pointer;
+            margin-top: 10px;
+            transition: transform 0.2s ease;
+            font-weight: 600;
+        }
+
+        .event-button:hover {
+            transform: translateY(-1px);
+        }
+
+        .event-button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .event-button.added {
+            background: #28a745;
         }
         
         .footer {
@@ -440,15 +468,65 @@
             statusDiv.style.display = 'block';
         }
         
+        async function addSingleEventToCalendar(event, button) {
+            if (!accessToken) {
+                showStatus('Please sign in with Google first', 'error');
+                return;
+            }
+
+            button.disabled = true;
+            button.textContent = 'Adding...';
+
+            try {
+                // Get user's timezone
+                const timeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+
+                // Add timezone to event if using dateTime
+                const calendarEvent = { ...event };
+                if (calendarEvent.start && calendarEvent.start.dateTime) {
+                    calendarEvent.start.timeZone = timeZone;
+                }
+                if (calendarEvent.end && calendarEvent.end.dateTime) {
+                    calendarEvent.end.timeZone = timeZone;
+                }
+
+                const response = await fetch('https://www.googleapis.com/calendar/v3/calendars/primary/events', {
+                    method: 'POST',
+                    headers: {
+                        'Authorization': `Bearer ${accessToken}`,
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(calendarEvent)
+                });
+
+                if (response.ok) {
+                    button.textContent = '✓ Added';
+                    button.classList.add('added');
+                    showStatus('Event added successfully!', 'success');
+                } else {
+                    const errorText = await response.text();
+                    console.error('Failed to add event:', event, errorText);
+                    button.disabled = false;
+                    button.textContent = 'Add to Calendar';
+                    showStatus('Failed to add event. Check console for details.', 'error');
+                }
+            } catch (error) {
+                console.error('Error adding event:', error);
+                button.disabled = false;
+                button.textContent = 'Add to Calendar';
+                showStatus(`Error: ${error.message}`, 'error');
+            }
+        }
+
         function displayEvents(events) {
             eventsPreview.innerHTML = '<h3 style="margin-bottom: 15px;">Extracted Events:</h3>';
-            events.forEach(event => {
+            events.forEach((event, index) => {
                 const eventDiv = document.createElement('div');
                 eventDiv.className = 'event-item';
-                
+
                 const startDate = new Date(event.start.dateTime || event.start.date);
                 const endDate = event.end ? new Date(event.end.dateTime || event.end.date) : null;
-                
+
                 eventDiv.innerHTML = `
                     <div class="event-title">${event.summary || event.title || 'Untitled Event'}</div>
                     <div class="event-details">
@@ -458,6 +536,14 @@
                         ${event.description ? `<br>📝 ${event.description}` : ''}
                     </div>
                 `;
+
+                // Create individual add button
+                const addButton = document.createElement('button');
+                addButton.className = 'event-button';
+                addButton.textContent = 'Add to Calendar';
+                addButton.onclick = () => addSingleEventToCalendar(event, addButton);
+
+                eventDiv.appendChild(addButton);
                 eventsPreview.appendChild(eventDiv);
             });
             eventsPreview.style.display = 'block';
