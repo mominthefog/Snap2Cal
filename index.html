@@ -47,34 +47,244 @@
         
         .upload-section {
             border: 3px dashed #667eea;
-            border-radius: 10px;
-            padding: 40px;
+            border-radius: 16px;
+            padding: 60px 40px;
             text-align: center;
             margin-bottom: 20px;
             transition: all 0.3s ease;
             cursor: pointer;
-        }
-        
-        .upload-section:hover {
-            border-color: #764ba2;
             background-color: #f8f9ff;
         }
-        
-        .upload-section.dragover {
+
+        .upload-section:hover {
+            border-color: #764ba2;
             background-color: #f0f4ff;
+        }
+
+        .upload-section.dragover {
+            background-color: #e8ecff;
             border-color: #764ba2;
         }
-        
+
         input[type="file"] {
             display: none;
         }
-        
+
+        .upload-icon {
+            width: 64px;
+            height: 64px;
+            margin: 0 auto 20px;
+            color: #667eea;
+        }
+
         .upload-label {
-            font-size: 1.2em;
+            display: block;
+            font-size: 1.3em;
             color: #667eea;
             font-weight: 600;
+            margin-bottom: 8px;
         }
-        
+
+        .upload-sublabel {
+            display: block;
+            font-size: 1em;
+            color: #9ba3eb;
+            font-weight: 400;
+        }
+
+        .upload-section.has-file {
+            background-color: #f0f4ff;
+            border-color: #667eea;
+        }
+
+        .file-info {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .file-preview-row {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .file-preview {
+            width: 120px;
+            height: 120px;
+            object-fit: cover;
+            border-radius: 8px;
+            border: 2px solid #667eea;
+            box-shadow: 0 2px 8px rgba(102, 126, 234, 0.2);
+            flex-shrink: 0;
+        }
+
+        .file-details {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            align-items: flex-start;
+        }
+
+        .file-name {
+            font-size: 1.1em;
+            color: #333;
+            font-weight: 500;
+        }
+
+        .change-file-link {
+            color: #667eea;
+            text-decoration: underline;
+            cursor: pointer;
+            font-size: 0.95em;
+            transition: opacity 0.2s ease;
+            text-align: center;
+        }
+
+        .change-file-link:hover {
+            opacity: 0.7;
+        }
+
+        /* Mobile responsive styles */
+        @media (max-width: 768px) {
+            .container {
+                padding: 20px;
+            }
+
+            h1 {
+                font-size: 2em;
+            }
+
+            .subtitle {
+                font-size: 1em;
+            }
+
+            .upload-section {
+                padding: 15px;
+            }
+
+            .upload-icon {
+                width: 48px;
+                height: 48px;
+            }
+
+            .upload-label {
+                font-size: 1.1em;
+            }
+
+            .upload-sublabel {
+                font-size: 0.9em;
+            }
+
+            .file-preview-row {
+                flex-direction: column;
+                gap: 12px;
+            }
+
+            .file-preview {
+                width: 100px;
+                height: 100px;
+            }
+
+            .file-details {
+                align-items: center;
+                text-align: center;
+            }
+
+            .file-name {
+                font-size: 0.95em;
+                word-break: break-word;
+            }
+
+            .signed-in-info {
+                padding: 8px;
+                gap: 8px;
+            }
+
+            .user-profile {
+                gap: 8px;
+                flex: 1;
+                min-width: 0;
+            }
+
+            .user-profile-pic {
+                width: 32px;
+                height: 32px;
+            }
+
+            .user-name {
+                font-size: 0.85em;
+            }
+
+            .user-email {
+                font-size: 0.75em;
+            }
+
+            .sign-out-btn {
+                font-size: 0.8em;
+                white-space: nowrap;
+            }
+
+            button {
+                padding: 12px 20px;
+                font-size: 1em;
+            }
+        }
+
+        @media (max-width: 480px) {
+            h1 {
+                font-size: 1.75em;
+            }
+
+            .subtitle {
+                font-size: 0.95em;
+            }
+
+            .upload-section {
+                padding: 20px 15px;
+            }
+
+            .file-preview {
+                width: 80px;
+                height: 80px;
+            }
+
+            .file-name {
+                font-size: 0.9em;
+            }
+
+            .signed-in-info {
+                flex-direction: column;
+                padding: 10px;
+                gap: 10px;
+            }
+
+            .user-profile {
+                width: 100%;
+                justify-content: center;
+            }
+
+            .user-profile-pic {
+                width: 28px;
+                height: 28px;
+            }
+
+            .user-name {
+                font-size: 0.8em;
+            }
+
+            .user-email {
+                font-size: 0.7em;
+                word-break: break-all;
+            }
+
+            .sign-out-btn {
+                font-size: 0.85em;
+            }
+        }
+
         button {
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             color: white;
@@ -254,25 +464,47 @@
         .sign-out-btn:hover {
             opacity: 0.7;
         }
+
+        .sign-out-link {
+            background: none;
+            border: none;
+            color: #667eea;
+            font-size: 0.75em;
+            cursor: pointer;
+            text-decoration: underline;
+            padding: 0;
+            margin: 0;
+            font-weight: 400;
+            transition: opacity 0.2s ease;
+        }
+
+        .sign-out-link:hover {
+            opacity: 0.7;
+        }
     </style>
 </head>
 <body>
     <div class="container">
         <h1>Snap2Cal</h1>
-        <p class="subtitle">Transform Images into Calendar Events</p>
-        <p class="subtitle">One Snap. Zero Mental Load.</p>
+        <p class="subtitle">Transform Images into Calendar Events<br>One Snap. Zero Mental Load.</p>
         
         <div id="googleSignIn"></div>
         <div id="signedInInfo" class="signed-in-info" style="display: none;"></div>
-        
+        <div id="signOutLink" style="display: none; text-align: right; margin-top: -15px; margin-bottom: 10px;">
+            <button class="sign-out-link" onclick="signOut()">Sign Out</button>
+        </div>
+
         <div class="upload-section" id="uploadSection">
             <input type="file" id="fileInput" accept=".pdf,image/*">
-            <label class="upload-label">
-                📄 Click to upload an image
-            </label>
+            <svg class="upload-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M12 15V3M12 3L8 7M12 3L16 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M2 17L2 19C2 20.1046 2.89543 21 4 21L20 21C21.1046 21 22 20.1046 22 19V17" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+            <span class="upload-label">Click to upload an image</span>
+            <span class="upload-sublabel">or drag and drop</span>
         </div>
         
-        <button id="processBtn" disabled>Process Image</button>
+        <button id="processBtn" style="display: none;">Process Image</button>
         <button id="addToCalendarBtn" style="display: none;">Add Events to Calendar</button>
         
         <div id="status"></div>
@@ -349,6 +581,7 @@
         function updateSignInStatus() {
             const signedInInfo = document.getElementById('signedInInfo');
             const googleSignIn = document.getElementById('googleSignIn');
+            const signOutLink = document.getElementById('signOutLink');
 
             if (accessToken) {
                 let profileHTML = '<div class="user-profile">';
@@ -372,13 +605,14 @@
                 }
 
                 profileHTML += '</div>';
-                profileHTML += '<button class="sign-out-btn" onclick="signOut()">Sign Out</button>';
 
                 signedInInfo.innerHTML = profileHTML;
                 signedInInfo.style.display = 'flex';
+                signOutLink.style.display = 'block';
                 googleSignIn.style.display = 'none';
             } else {
                 signedInInfo.style.display = 'none';
+                signOutLink.style.display = 'none';
                 googleSignIn.style.display = 'block';
             }
         }
@@ -398,6 +632,11 @@
             eventsPreview.style.display = 'none';
             addToCalendarBtn.style.display = 'none';
             extractedEvents = [];
+
+            // Reset upload section
+            selectedFile = null;
+            processBtn.style.display = 'none';
+            updateUploadSection();
         }
         
         // File Upload Handling
@@ -408,13 +647,76 @@
         const statusDiv = document.getElementById('status');
         const eventsPreview = document.getElementById('eventsPreview');
         
-        fileInput.addEventListener('change', (e) => {
+        function updateUploadSection() {
+            if (selectedFile) {
+                // Show filename and change link
+                uploadSection.classList.add('has-file');
+                uploadSection.innerHTML = `
+                    <input type="file" id="fileInput" accept=".pdf,image/*">
+                    <div class="file-info">
+                        <div class="file-preview-row">
+                            <img id="filePreview" class="file-preview" style="display: none;">
+                            <div class="file-details">
+                                <div class="file-name">${selectedFile.name}</div>
+                            </div>
+                        </div>
+                        <span class="change-file-link" id="changeFileLink">Change file</span>
+                    </div>
+                `;
+
+                // Create image preview if it's an image file
+                if (selectedFile.type.startsWith('image/')) {
+                    const reader = new FileReader();
+                    reader.onload = function(e) {
+                        const previewImg = document.getElementById('filePreview');
+                        if (previewImg) {
+                            previewImg.src = e.target.result;
+                            previewImg.style.display = 'block';
+                        }
+                    };
+                    reader.readAsDataURL(selectedFile);
+                }
+
+                // Re-attach event listeners
+                const newFileInput = document.getElementById('fileInput');
+                const changeLink = document.getElementById('changeFileLink');
+
+                newFileInput.addEventListener('change', handleFileSelect);
+                newFileInput.addEventListener('click', (e) => e.stopPropagation());
+
+                changeLink.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    newFileInput.click();
+                });
+            } else {
+                // Show default upload UI
+                uploadSection.classList.remove('has-file');
+                uploadSection.innerHTML = `
+                    <input type="file" id="fileInput" accept=".pdf,image/*">
+                    <svg class="upload-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M12 15V3M12 3L8 7M12 3L16 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        <path d="M2 17L2 19C2 20.1046 2.89543 21 4 21L20 21C21.1046 21 22 20.1046 22 19V17" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                    <span class="upload-label">Click to upload an image</span>
+                    <span class="upload-sublabel">or drag and drop</span>
+                `;
+
+                const newFileInput = document.getElementById('fileInput');
+                newFileInput.addEventListener('change', handleFileSelect);
+                newFileInput.addEventListener('click', (e) => e.stopPropagation());
+            }
+        }
+
+        function handleFileSelect(e) {
             selectedFile = e.target.files[0];
             if (selectedFile) {
-                processBtn.disabled = false;
+                processBtn.style.display = 'block';
                 showStatus(`File selected: ${selectedFile.name}`, 'info');
+                updateUploadSection();
             }
-        });
+        }
+
+        fileInput.addEventListener('change', handleFileSelect);
         
         // Drag and drop
         uploadSection.addEventListener('dragover', (e) => {
@@ -429,13 +731,13 @@
         uploadSection.addEventListener('drop', (e) => {
             e.preventDefault();
             uploadSection.classList.remove('dragover');
-            
+
             const files = e.dataTransfer.files;
             if (files.length > 0) {
                 selectedFile = files[0];
-                fileInput.files = files;
-                processBtn.disabled = false;
+                processBtn.style.display = 'block';
                 showStatus(`File selected: ${selectedFile.name}`, 'info');
+                updateUploadSection();
             }
         });
         
