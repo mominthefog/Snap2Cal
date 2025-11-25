@@ -14,7 +14,7 @@
         
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(to bottom, #FFFFFF 0%, #3c91e6 100%);
             min-height: 100vh;
             display: flex;
             justify-content: center;
@@ -30,7 +30,15 @@
             width: 100%;
             box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
         }
-        
+
+        .logo {
+            width: 200px;
+            max-width: 100%;
+            height: auto;
+            display: block;
+            margin: 0 auto 20px;
+        }
+
         h1 {
             color: #333;
             margin-bottom: 10px;
@@ -123,6 +131,10 @@
                 padding: 20px;
             }
 
+            .logo {
+                width: 150px;
+            }
+
             h1 {
                 font-size: 2em;
             }
@@ -184,6 +196,10 @@
         }
 
         @media (max-width: 480px) {
+            .logo {
+                width: 120px;
+            }
+
             h1 {
                 font-size: 1.75em;
             }
@@ -523,7 +539,7 @@
 </head>
 <body>
     <div class="container">
-        <h1>Snap2Cal</h1>
+        <img src="Snap2CalLogos/Snap2Cal_Logo 500px/Snap2Cal_Logomain.png" alt="Snap2Cal Logo" class="logo">
         <p class="subtitle">Transform Images into Calendar Events<br>One Snap. Zero Mental Load.</p>
         
         <div id="googleSignIn"></div>
