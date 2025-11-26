@@ -50,12 +50,14 @@ exports.handler = async (event, context) => {
         messages: [
           {
             role: 'system',
-            content: `You are a calendar event extraction assistant. Extract all events from the provided document and return them as a JSON array. Each event should have:
-- title (string)
-- start (object with dateTime in ISO format)
-- end (object with dateTime in ISO format)
+            content: `You are a calendar event extraction assistant. Extract all events from the provided document and return them as a JSON array. Each event should follow Google Calendar API format with:
+- summary (string) - the event name/title
+- start (object) - use {"dateTime": "ISO format"} for timed events OR {"date": "YYYY-MM-DD"} for all-day events
+- end (object) - use {"dateTime": "ISO format"} for timed events OR {"date": "YYYY-MM-DD"} for all-day events
 - description (string, optional)
 - location (string, optional)
+
+IMPORTANT: If no specific time is mentioned, use the "date" format for all-day events. Only use "dateTime" when a specific time is clearly stated.
 
 Return ONLY valid JSON with no additional text or markdown formatting.`
           },

@@ -894,6 +894,13 @@
                     try {
                         // Add timezone to event if using dateTime
                         const calendarEvent = { ...event };
+
+                        // Ensure summary field exists (Google Calendar requires it)
+                        if (!calendarEvent.summary && calendarEvent.title) {
+                            calendarEvent.summary = calendarEvent.title;
+                            delete calendarEvent.title;
+                        }
+
                         if (calendarEvent.start && calendarEvent.start.dateTime) {
                             calendarEvent.start.timeZone = timeZone;
                         }
@@ -959,6 +966,13 @@
 
                 // Add timezone to event if using dateTime
                 const calendarEvent = { ...event };
+
+                // Ensure summary field exists (Google Calendar requires it)
+                if (!calendarEvent.summary && calendarEvent.title) {
+                    calendarEvent.summary = calendarEvent.title;
+                    delete calendarEvent.title;
+                }
+
                 if (calendarEvent.start && calendarEvent.start.dateTime) {
                     calendarEvent.start.timeZone = timeZone;
                 }
