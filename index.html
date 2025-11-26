@@ -908,6 +908,8 @@
                             calendarEvent.end.timeZone = timeZone;
                         }
 
+                        console.log('Sending event to Google Calendar:', JSON.stringify(calendarEvent, null, 2));
+
                         const response = await fetch('https://www.googleapis.com/calendar/v3/calendars/primary/events', {
                             method: 'POST',
                             headers: {
@@ -919,17 +921,27 @@
                         
                         if (response.ok) {
                             successCount++;
+                            console.log('Successfully added event:', calendarEvent.summary);
                         } else {
                             failCount++;
-                            console.error('Failed to add event:', event, await response.text());
+                            const errorText = await response.text();
+                            console.error('Failed to add event:', calendarEvent.summary, errorText);
                         }
                     } catch (error) {
                         failCount++;
                         console.error('Error adding event:', error);
                     }
                 }
+
+                // Show feedback to user
+                if (successCount > 0 || failCount > 0) {
+                    const message = `Added ${successCount} event(s) successfully${failCount > 0 ? `, ${failCount} failed` : ''}`;
+                    alert(message);
+                    console.log(message);
+                }
             } catch (error) {
                 console.error('Error:', error);
+                alert('Error adding events: ' + error.message);
             } finally {
                 addToCalendarBtn.disabled = false;
             }
