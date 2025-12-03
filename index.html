@@ -606,6 +606,56 @@
                 font-size: 0.95em;
             }
         }
+
+        .why-sign-in {
+            background-color: #fff7ed;
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 30px;
+            border-left: 4px solid #FA824C;
+        }
+
+        .why-sign-in h3 {
+            font-size: 1.2em;
+            color: #333;
+            margin-bottom: 12px;
+            font-weight: 600;
+        }
+
+        .why-sign-in p {
+            font-size: 0.95em;
+            color: #555;
+            line-height: 1.6;
+            margin: 0;
+        }
+
+        @media (max-width: 768px) {
+            .why-sign-in {
+                padding: 16px;
+            }
+
+            .why-sign-in h3 {
+                font-size: 1.1em;
+            }
+
+            .why-sign-in p {
+                font-size: 0.9em;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .why-sign-in {
+                padding: 14px;
+            }
+
+            .why-sign-in h3 {
+                font-size: 1.05em;
+            }
+
+            .why-sign-in p {
+                font-size: 0.85em;
+            }
+        }
     </style>
 </head>
 <body>
@@ -620,6 +670,11 @@
                 <li>✨ AI extracts the event details automatically</li>
                 <li>📅 Add events to your Google Calendar with one click</li>
             </ul>
+        </div>
+
+        <div class="why-sign-in">
+            <h3>Why sign in with Google?</h3>
+            <p>Snap2Cal connects to your Google Calendar so it can create events for you. We only add events you approve — we never read or modify your existing calendar.</p>
         </div>
 
         <div id="googleSignIn"></div>
