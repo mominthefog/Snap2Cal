@@ -547,13 +547,81 @@
             opacity: 0.7;
             transform: none !important;
         }
+
+        .how-it-works {
+            background-color: #f8f9ff;
+            border-radius: 12px;
+            padding: 24px;
+            margin-bottom: 30px;
+        }
+
+        .how-it-works h2 {
+            font-size: 1.5em;
+            color: #333;
+            margin-bottom: 16px;
+            text-align: center;
+        }
+
+        .how-it-works-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .how-it-works-list li {
+            font-size: 1.05em;
+            color: #555;
+            margin-bottom: 12px;
+            line-height: 1.5;
+        }
+
+        .how-it-works-list li:last-child {
+            margin-bottom: 0;
+        }
+
+        @media (max-width: 768px) {
+            .how-it-works {
+                padding: 20px;
+            }
+
+            .how-it-works h2 {
+                font-size: 1.3em;
+            }
+
+            .how-it-works-list li {
+                font-size: 1em;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .how-it-works {
+                padding: 16px;
+            }
+
+            .how-it-works h2 {
+                font-size: 1.2em;
+            }
+
+            .how-it-works-list li {
+                font-size: 0.95em;
+            }
+        }
     </style>
 </head>
 <body>
     <div class="container">
         <img src="Snap2CalLogos/Snap2Cal_Logo_500px.png" alt="Snap2Cal Logo" class="logo">
         <p class="subtitle">Transform Images into Calendar Events<br>One Snap. Zero Mental Load.</p>
-        
+
+        <div class="how-it-works">
+            <h2>How it works</h2>
+            <ul class="how-it-works-list">
+                <li>📸 Upload a photo of any event flyer, school schedule, or invitation</li>
+                <li>✨ AI extracts the event details automatically</li>
+                <li>📅 Add events to your Google Calendar with one click</li>
+            </ul>
+        </div>
+
         <div id="googleSignIn"></div>
         <div id="signedInInfo" class="signed-in-info" style="display: none;"></div>
         <div id="signOutLink" style="display: none; text-align: right; margin-top: -15px; margin-bottom: 10px;">
