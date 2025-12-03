@@ -672,7 +672,7 @@
             </ul>
         </div>
 
-        <div class="why-sign-in">
+        <div id="whySignIn" class="why-sign-in">
             <h3>Why sign in with Google?</h3>
             <p>Snap2Cal connects to your Google Calendar so it can create events for you. We only add events you approve — we never read or modify your existing calendar.</p>
         </div>
@@ -784,6 +784,7 @@
             const googleSignIn = document.getElementById('googleSignIn');
             const signOutLink = document.getElementById('signOutLink');
             const uploadSection = document.getElementById('uploadSection');
+            const whySignIn = document.getElementById('whySignIn');
 
             if (accessToken) {
                 let profileHTML = '<div class="user-profile">';
@@ -813,11 +814,13 @@
                 signOutLink.style.display = 'block';
                 googleSignIn.style.display = 'none';
                 uploadSection.style.display = 'block';
+                whySignIn.style.display = 'none';
             } else {
                 signedInInfo.style.display = 'none';
                 signOutLink.style.display = 'none';
                 googleSignIn.style.display = 'block';
                 uploadSection.style.display = 'none';
+                whySignIn.style.display = 'block';
             }
         }
 
