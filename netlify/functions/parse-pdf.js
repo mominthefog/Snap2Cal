@@ -38,19 +38,19 @@ exports.handler = async (event, context) => {
       };
     }
 
-    // Call OpenAI API with your server-side API key
-    const response = await fetch('https://api.openai.com/v1/chat/completions', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${process.env.OPENAI_API_KEY}`
-      },
-      body: JSON.stringify({
-        model: 'gpt-4o',
-        messages: [
-          {
-            role: 'system',
-            content: `You are a calendar event extraction assistant. Extract all events from the provided document and return them as a JSON array. Each event should follow Google Calendar API format with:
+    // Extract base64 data and media type from data URL
+    const matches = fileContent.match(/^data:([^;]+);base64,(.+)$/);
+    if (!matches) {
+      return {
+        statusCode: 400,
+        headers,
+        body: JSON.stringify({ error: 'Invalid file content format' })
+      };
+    }
+    const mediaType = matches[1];
+    const base64Data = matches[2];
+
+    const systemPrompt = `You are a calendar event extraction assistant. Extract all events from the provided document and return them as a JSON array. Each event should follow Google Calendar API format with:
 - summary (string) - the event name/title
 - start (object) - use {"dateTime": "ISO format"} for timed events OR {"date": "YYYY-MM-DD"} for all-day events
 - end (object) - use {"dateTime": "ISO format"} for timed events OR {"date": "YYYY-MM-DD"} for all-day events
@@ -59,43 +59,57 @@ exports.handler = async (event, context) => {
 
 IMPORTANT: If no specific time is mentioned, use the "date" format for all-day events. Only use "dateTime" when a specific time is clearly stated.
 
-Return ONLY valid JSON with no additional text or markdown formatting.`
-          },
+Return ONLY valid JSON with no additional text or markdown formatting.`;
+
+    // Call Claude API with your server-side API key
+    const response = await fetch('https://api.anthropic.com/v1/messages', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'x-api-key': process.env.ANTHROPIC_API_KEY,
+        'anthropic-version': '2023-06-01'
+      },
+      body: JSON.stringify({
+        model: 'claude-sonnet-4-20250514',
+        max_tokens: 2000,
+        system: systemPrompt,
+        messages: [
           {
             role: 'user',
             content: [
               {
-                type: 'text',
-                text: `Extract all calendar events from this document (${fileName}). Return as JSON array.`
+                type: 'image',
+                source: {
+                  type: 'base64',
+                  media_type: mediaType,
+                  data: base64Data
+                }
               },
               {
-                type: 'image_url',
-                image_url: {
-                  url: fileContent
-                }
+                type: 'text',
+                text: `Extract all calendar events from this document (${fileName}). Return as JSON array.`
               }
             ]
           }
-        ],
-        max_tokens: 2000
+        ]
       })
     });
 
     if (!response.ok) {
       const errorData = await response.text();
-      console.error('OpenAI API Error:', errorData);
+      console.error('Claude API Error:', errorData);
       return {
         statusCode: response.status,
         headers,
-        body: JSON.stringify({ 
-          error: 'OpenAI API request failed',
-          details: errorData 
+        body: JSON.stringify({
+          error: 'Claude API request failed',
+          details: errorData
         })
       };
     }
 
     const data = await response.json();
-    const content = data.choices[0].message.content;
+    const content = data.content[0].text;
 
     // Try to parse the JSON response
     let events;
