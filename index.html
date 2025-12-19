@@ -664,7 +664,7 @@
         <img src="Snap2CalLogos/Snap2Cal_Logo_500px.png" alt="Snap2Cal Logo" class="logo">
         <p class="subtitle">Transform Images into Calendar Events<br>One Snap. Zero Mental Load.</p>
 
-        <div class="how-it-works">
+        <div id="howItWorks" class="how-it-works">
             <h2>How it works</h2>
             <ul class="how-it-works-list">
                 <li>🔗 Connect to your Google account</li>
@@ -787,6 +787,7 @@
             const signOutLink = document.getElementById('signOutLink');
             const uploadSection = document.getElementById('uploadSection');
             const whySignIn = document.getElementById('whySignIn');
+            const howItWorks = document.getElementById('howItWorks');
 
             if (accessToken) {
                 let profileHTML = '<div class="user-profile">';
@@ -817,12 +818,14 @@
                 googleSignIn.style.display = 'none';
                 uploadSection.style.display = 'block';
                 whySignIn.style.display = 'none';
+                howItWorks.style.display = 'none';
             } else {
                 signedInInfo.style.display = 'none';
                 signOutLink.style.display = 'none';
                 googleSignIn.style.display = 'block';
                 uploadSection.style.display = 'none';
                 whySignIn.style.display = 'block';
+                howItWorks.style.display = 'block';
             }
         }
 
