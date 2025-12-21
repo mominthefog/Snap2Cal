@@ -999,7 +999,11 @@
                 // Debug: log what AI returned
                 console.log('AI raw response:', data.rawResponse);
 
-                if (data.events && data.events.length > 0) {
+                if (data.error) {
+                    // AI response couldn't be parsed or other error
+                    displayNoEventsFound(data.rawContent || data.message || data.error);
+                    addToCalendarBtn.style.display = 'none';
+                } else if (data.events && data.events.length > 0) {
                     extractedEvents = data.events;
                     displayEvents(data.events);
                     addToCalendarBtn.style.display = 'block';
