@@ -1001,7 +1001,7 @@
 
                 if (data.error) {
                     // AI response couldn't be parsed or other error
-                    displayNoEventsFound(data.message, data.rawContent || data.rawResponse);
+                    displayNoEventsFound(data.message);
                     addToCalendarBtn.style.display = 'none';
                 } else if (data.events && data.events.length > 0) {
                     extractedEvents = data.events;
@@ -1009,7 +1009,7 @@
                     addToCalendarBtn.style.display = 'block';
                 } else {
                     // No events found - show AI's explanation
-                    displayNoEventsFound(data.message, data.rawResponse);
+                    displayNoEventsFound(data.message);
                     addToCalendarBtn.style.display = 'none';
                 }
             } catch (error) {
@@ -1267,17 +1267,11 @@
             eventsPreview.style.display = 'block';
         }
 
-        function displayNoEventsFound(aiMessage, rawResponse) {
+        function displayNoEventsFound(aiMessage) {
             eventsPreview.innerHTML = `
                 <div style="background: #fef2f2; border: 1px solid #fecaca; border-radius: 8px; padding: 20px;">
                     <h3 style="color: #991b1b; margin-bottom: 12px; font-size: 1.1em;">No events found</h3>
                     <p style="color: #555; line-height: 1.6; margin-bottom: 0;">${aiMessage || "We couldn't extract any calendar events from this image. Try uploading a clearer image of an event flyer, invitation, or schedule."}</p>
-                    ${rawResponse ? `
-                        <details style="margin-top: 20px; padding-top: 16px; border-top: 1px solid #fecaca;">
-                            <summary style="cursor: pointer; color: #a1bed1; font-weight: 600; font-size: 0.9em;">Show AI response (beta debugging)</summary>
-                            <pre style="background: #f3f4f6; padding: 12px; border-radius: 4px; margin-top: 8px; overflow-x: auto; font-size: 0.8em; white-space: pre-wrap; color: #374151;">${rawResponse}</pre>
-                        </details>
-                    ` : ''}
                 </div>
             `;
             eventsPreview.style.display = 'block';
