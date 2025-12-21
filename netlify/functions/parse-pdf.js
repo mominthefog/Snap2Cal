@@ -50,6 +50,11 @@ exports.handler = async (event, context) => {
     const mediaType = matches[1];
     const base64Data = matches[2];
 
+    const today = new Date();
+    const todayFormatted = today.toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
+    const currentYear = today.getFullYear();
+    const nextYear = currentYear + 1;
+
     const systemPrompt = `You are a calendar event extraction assistant. Extract all events from the provided document and return them as JSON.
 
 Your response must be a JSON object with this structure:
@@ -59,19 +64,35 @@ Your response must be a JSON object with this structure:
 }
 
 For the "events" array, each event should follow Google Calendar API format with:
-- summary (string) - the event name/title
+- summary (string) - the event name/title (use "Untitled Event" if no title is visible)
 - start (object) - use {"dateTime": "ISO format"} for timed events OR {"date": "YYYY-MM-DD"} for all-day events
 - end (object) - use {"dateTime": "ISO format"} for timed events OR {"date": "YYYY-MM-DD"} for all-day events
 - description (string, optional)
 - location (string, optional)
 
-For the "message" field:
-- If events were found: briefly confirm what you extracted (e.g., "Found 3 events from the school newsletter")
-- If no events found: explain specifically why in a friendly, helpful way (e.g., "This looks like a restaurant menu - I didn't see any dates or scheduled events. Try uploading an event flyer or invitation!")
+HANDLING PARTIAL INFORMATION:
+- If an event has a title but no date, DO NOT include it in the events array. Mention it in the message (e.g., "I also saw 'Soccer Practice' mentioned but couldn't find a date for it.")
+- If an event has a date but no clear title, include it with summary "Untitled Event" and note what you saw in the description
+- Always include whatever details you can extract — users can edit events after adding them
 
-IMPORTANT:
+HANDLING DATES:
+- Today's date is: ${todayFormatted}
+- If no year is specified, assume the current year (${currentYear})
+- If the date has already passed this year, assume next year (${nextYear})
 - If no specific time is mentioned, use the "date" format for all-day events
 - Only use "dateTime" when a specific time is clearly stated
+
+HANDLING RECURRING EVENTS:
+- If an event appears to be recurring (e.g., "every Tuesday" or "weekly"), create only ONE event for the first/next occurrence
+- Note the recurrence pattern in the description (e.g., "Note: This appears to be a recurring event (every Tuesday)")
+- Do NOT create multiple events for recurring patterns
+
+For the "message" field:
+- If events were found: briefly confirm what you extracted (e.g., "Found 3 events from the school newsletter")
+- If partial information was found: mention what couldn't be fully captured (e.g., "Found 2 events. I also saw 'Book Club' mentioned but couldn't find a date for it.")
+- If no events found: explain specifically why in a friendly, helpful way (e.g., "This looks like a restaurant menu — I didn't see any dates or scheduled events. Try uploading an event flyer or invitation!")
+
+IMPORTANT:
 - Return ONLY valid JSON with no additional text or markdown formatting`;
 
     // Call Claude API with your server-side API key
