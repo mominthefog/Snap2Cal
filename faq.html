@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FAQ - Snap2Cal</title>
+    <link rel="icon" type="image/svg+xml" href="Snap2CalLogos/Favicons/Snap2Cal_favicon01_charcoal.svg">
+    <link rel="alternate icon" type="image/png" href="Snap2CalLogos/Favicons/Snap2Cal_favicon01_charcoal.png">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: linear-gradient(to bottom, #FFFFFF 0%, #3c91e6 100%);
+            min-height: 100vh;
+            padding: 40px 20px;
+        }
+
+        .container {
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            max-width: 800px;
+            margin: 0 auto;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+        }
+
+        h1 {
+            color: #333;
+            margin-bottom: 10px;
+            font-size: 2.5em;
+        }
+
+        .subtitle {
+            color: #666;
+            margin-bottom: 30px;
+            font-size: 1.1em;
+        }
+
+        h2 {
+            color: #667eea;
+            margin-top: 30px;
+            margin-bottom: 20px;
+            font-size: 1.5em;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #eee;
+        }
+
+        .faq-item {
+            margin-bottom: 25px;
+        }
+
+        .faq-question {
+            color: #333;
+            font-weight: 600;
+            font-size: 1.1em;
+            margin-bottom: 8px;
+        }
+
+        .faq-answer {
+            color: #444;
+            line-height: 1.6;
+        }
+
+        .faq-answer ul {
+            margin-left: 20px;
+            margin-top: 8px;
+        }
+
+        .faq-answer li {
+            margin-bottom: 5px;
+        }
+
+        a {
+            color: #667eea;
+            text-decoration: none;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+
+        .back-link {
+            display: inline-block;
+            margin-bottom: 20px;
+            color: #667eea;
+            font-weight: 600;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 20px;
+            }
+
+            h1 {
+                font-size: 2em;
+            }
+
+            h2 {
+                font-size: 1.3em;
+            }
+
+            .faq-question {
+                font-size: 1em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <a href="/" class="back-link">&larr; Back to Snap2Cal</a>
+
+        <h1>Frequently Asked Questions</h1>
+        <p class="subtitle">Everything you need to know about using Snap2Cal</p>
+
+        <h2>How It Works</h2>
+
+        <div class="faq-item">
+            <p class="faq-question">How does Snap2Cal work?</p>
+            <p class="faq-answer">Upload a photo of a flyer, schedule, or invitation. Our AI reads the image, finds event details (title, date, time, location), and lets you add them to your Google Calendar with one tap.</p>
+        </div>
+
+        <div class="faq-item">
+            <p class="faq-question">What kinds of images work best?</p>
+            <div class="faq-answer">
+                <p>Snap2Cal works best with:</p>
+                <ul>
+                    <li>Event flyers and posters</li>
+                    <li>School schedules and calendars</li>
+                    <li>Party invitations</li>
+                    <li>Screenshots of event details</li>
+                    <li>Sports schedules</li>
+                </ul>
+                <p>Clear, readable images with visible dates and times get the best results.</p>
+            </div>
+        </div>
+
+        <div class="faq-item">
+            <p class="faq-question">What file types can I upload?</p>
+            <p class="faq-answer">Images: PNG, JPG, GIF, WebP. PDFs (image-based PDFs work best).</p>
+        </div>
+
+        <div class="faq-item">
+            <p class="faq-question">Why didn't it find all the events?</p>
+            <div class="faq-answer">
+                <p>AI works best when event info is clearly visible. Try:</p>
+                <ul>
+                    <li>Using a clearer or higher-resolution image</li>
+                    <li>Making sure dates and times are visible</li>
+                    <li>Cropping to focus on the event details</li>
+                </ul>
+            </div>
+        </div>
+
+        <h2>Your Data & Privacy</h2>
+
+        <div class="faq-item">
+            <p class="faq-question">What happens to my images?</p>
+            <p class="faq-answer">Your images are sent to our AI service to extract event details, then immediately discarded. We don't store your images.</p>
+        </div>
+
+        <div class="faq-item">
+            <p class="faq-question">What calendar access does Snap2Cal have?</p>
+            <p class="faq-answer">Snap2Cal can only <em>add</em> events to your calendar. We cannot read, edit, or delete your existing events.</p>
+        </div>
+
+        <div class="faq-item">
+            <p class="faq-question">Is my Google account safe?</p>
+            <p class="faq-answer">Yes. We use Google's official sign-in system (OAuth 2.0). We never see your Google password. You can revoke access anytime.</p>
+        </div>
+
+        <div class="faq-item">
+            <p class="faq-question">How do I remove Snap2Cal's access to my account?</p>
+            <p class="faq-answer">Visit your <a href="https://myaccount.google.com/permissions" target="_blank">Google Account Permissions</a>, find Snap2Cal, and click "Remove Access."</p>
+        </div>
+
+        <h2>Using the App</h2>
+
+        <div class="faq-item">
+            <p class="faq-question">Can I edit events before adding them?</p>
+            <p class="faq-answer">Not yet—this is planned for a future update. For now, you can edit events in Google Calendar after adding them.</p>
+        </div>
+
+        <div class="faq-item">
+            <p class="faq-question">Can I choose which calendar to add events to?</p>
+            <p class="faq-answer">Currently events are added to your primary Google Calendar. Multiple calendar support is coming soon.</p>
+        </div>
+
+        <div class="faq-item">
+            <p class="faq-question">Can I add just some of the events?</p>
+            <p class="faq-answer">Yes! Each event has its own "Add" button. Add only the ones you want.</p>
+        </div>
+
+        <h2>Troubleshooting</h2>
+
+        <div class="faq-item">
+            <p class="faq-question">The sign-in button isn't working</p>
+            <p class="faq-answer">Try refreshing the page or using a different browser. Make sure pop-ups aren't blocked.</p>
+        </div>
+
+        <div class="faq-item">
+            <p class="faq-question">I'm getting an error when processing my image</p>
+            <div class="faq-answer">
+                <p>This can happen with very large files or unclear images. Try:</p>
+                <ul>
+                    <li>Using a smaller file size</li>
+                    <li>Taking a clearer photo</li>
+                    <li>Cropping to just the event information</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="faq-item">
+            <p class="faq-question">Events were added with the wrong time</p>
+            <p class="faq-answer">Snap2Cal uses your device's timezone. If times look off, check that your device timezone is set correctly.</p>
+        </div>
+
+        <h2>About Snap2Cal</h2>
+
+        <div class="faq-item">
+            <p class="faq-question">Who made this?</p>
+            <p class="faq-answer">Snap2Cal is made by AmandaMade Digital Studio.</p>
+        </div>
+
+        <div class="faq-item">
+            <p class="faq-question">How do I contact support?</p>
+            <p class="faq-answer">Email us at <a href="mailto:hello@snap2cal.ai">hello@snap2cal.ai</a></p>
+        </div>
+
+        <div class="faq-item">
+            <p class="faq-question">Is Snap2Cal free?</p>
+            <p class="faq-answer">Snap2Cal is currently free while in Beta. We're building a suite of time-saving apps for busy parents, and your feedback helps shape what comes next.</p>
+        </div>
+
+        <div style="margin-top: 40px; padding-top: 20px; border-top: 1px solid #eee;">
+            <p style="text-align: center; color: #666; font-size: 0.9em;">
+                © 2025 AmandaMade Digital Studio. All rights reserved.
+            </p>
+        </div>
+    </div>
+</body>
+</html>
