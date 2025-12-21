@@ -1004,8 +1004,9 @@
                     displayEvents(data.events);
                     addToCalendarBtn.style.display = 'block';
                 } else {
-                    // Show what went wrong
-                    displayNoEventsFound(data.rawResponse || data.rawContent || 'No response from AI');
+                    // No events found - show helpful message
+                    displayNoEventsFound(data.rawResponse);
+                    addToCalendarBtn.style.display = 'none';
                 }
             } catch (error) {
                 console.error('Error:', error);
@@ -1265,17 +1266,20 @@
         function displayNoEventsFound(rawResponse) {
             eventsPreview.innerHTML = `
                 <div style="background: #fef2f2; border: 1px solid #fecaca; border-radius: 8px; padding: 20px;">
-                    <h3 style="color: #dc2626; margin-bottom: 12px;">No events found</h3>
-                    <p style="color: #666; margin-bottom: 16px;">We couldn't extract any calendar events from this image. This might happen if:</p>
-                    <ul style="color: #666; margin-left: 20px; margin-bottom: 16px;">
+                    <h3 style="color: #991b1b; margin-bottom: 12px; font-size: 1.1em;">No events found</h3>
+                    <p style="color: #666; margin-bottom: 16px; line-height: 1.5;">We couldn't extract any calendar events from this image. This might happen if:</p>
+                    <ul style="color: #666; margin-left: 20px; margin-bottom: 16px; line-height: 1.6;">
                         <li>The image is blurry or hard to read</li>
-                        <li>The document doesn't contain event information</li>
-                        <li>Dates/times aren't clearly visible</li>
+                        <li>The document doesn't contain event information (dates, times, event names)</li>
+                        <li>The text is too small or low contrast</li>
                     </ul>
-                    <details style="margin-top: 16px;">
-                        <summary style="cursor: pointer; color: #a1bed1; font-weight: 600;">Show AI response (for debugging)</summary>
-                        <pre style="background: #f3f4f6; padding: 12px; border-radius: 4px; margin-top: 8px; overflow-x: auto; font-size: 0.85em; white-space: pre-wrap;">${rawResponse}</pre>
-                    </details>
+                    <p style="color: #666; margin-bottom: 0;">Try uploading a clearer image of an event flyer, invitation, or schedule.</p>
+                    ${rawResponse ? `
+                        <details style="margin-top: 20px; padding-top: 16px; border-top: 1px solid #fecaca;">
+                            <summary style="cursor: pointer; color: #a1bed1; font-weight: 600; font-size: 0.9em;">Show AI response (beta debugging)</summary>
+                            <pre style="background: #f3f4f6; padding: 12px; border-radius: 4px; margin-top: 8px; overflow-x: auto; font-size: 0.8em; white-space: pre-wrap; color: #374151;">${rawResponse}</pre>
+                        </details>
+                    ` : ''}
                 </div>
             `;
             eventsPreview.style.display = 'block';
