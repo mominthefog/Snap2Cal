@@ -115,14 +115,26 @@ Return ONLY valid JSON with no additional text or markdown formatting.`;
     let events;
     try {
       // Remove markdown code blocks if present
-      const cleanedContent = content.replace(/```json\n?/g, '').replace(/```\n?/g, '').trim();
-      events = JSON.parse(cleanedContent);
+      let cleanedContent = content.replace(/```json\n?/g, '').replace(/```\n?/g, '').trim();
+
+      // Try to find JSON array in the response if direct parse fails
+      try {
+        events = JSON.parse(cleanedContent);
+      } catch (e) {
+        // Look for a JSON array anywhere in the content
+        const jsonMatch = content.match(/\[[\s\S]*\]/);
+        if (jsonMatch) {
+          events = JSON.parse(jsonMatch[0]);
+        } else {
+          throw new Error('No JSON array found');
+        }
+      }
     } catch (parseError) {
       console.error('JSON Parse Error:', parseError);
       return {
         statusCode: 500,
         headers,
-        body: JSON.stringify({ 
+        body: JSON.stringify({
           error: 'Failed to parse events from AI response',
           rawContent: content
         })
