@@ -132,7 +132,10 @@ Return ONLY valid JSON with no additional text or markdown formatting.`;
     return {
       statusCode: 200,
       headers,
-      body: JSON.stringify({ events })
+      body: JSON.stringify({
+        events,
+        rawResponse: content  // Include for debugging
+      })
     };
 
   } catch (error) {

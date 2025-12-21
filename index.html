@@ -995,11 +995,17 @@
                 }
                 
                 const data = await response.json();
-                
+
+                // Debug: log what AI returned
+                console.log('AI raw response:', data.rawResponse);
+
                 if (data.events && data.events.length > 0) {
                     extractedEvents = data.events;
                     displayEvents(data.events);
                     addToCalendarBtn.style.display = 'block';
+                } else {
+                    // Show what went wrong
+                    displayNoEventsFound(data.rawResponse || data.rawContent || 'No response from AI');
                 }
             } catch (error) {
                 console.error('Error:', error);
@@ -1255,7 +1261,26 @@
             });
             eventsPreview.style.display = 'block';
         }
-        
+
+        function displayNoEventsFound(rawResponse) {
+            eventsPreview.innerHTML = `
+                <div style="background: #fef2f2; border: 1px solid #fecaca; border-radius: 8px; padding: 20px;">
+                    <h3 style="color: #dc2626; margin-bottom: 12px;">No events found</h3>
+                    <p style="color: #666; margin-bottom: 16px;">We couldn't extract any calendar events from this image. This might happen if:</p>
+                    <ul style="color: #666; margin-left: 20px; margin-bottom: 16px;">
+                        <li>The image is blurry or hard to read</li>
+                        <li>The document doesn't contain event information</li>
+                        <li>Dates/times aren't clearly visible</li>
+                    </ul>
+                    <details style="margin-top: 16px;">
+                        <summary style="cursor: pointer; color: #a1bed1; font-weight: 600;">Show AI response (for debugging)</summary>
+                        <pre style="background: #f3f4f6; padding: 12px; border-radius: 4px; margin-top: 8px; overflow-x: auto; font-size: 0.85em; white-space: pre-wrap;">${rawResponse}</pre>
+                    </details>
+                </div>
+            `;
+            eventsPreview.style.display = 'block';
+        }
+
         // Initialize when page loads
         window.onload = () => {
             initializeGoogleSignIn();
