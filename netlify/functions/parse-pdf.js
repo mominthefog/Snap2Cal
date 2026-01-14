@@ -28,7 +28,7 @@ exports.handler = async (event, context) => {
   }
 
   try {
-    const { fileContent, fileName } = JSON.parse(event.body);
+    const { fileContent, fileName, clientDate, clientYear } = JSON.parse(event.body);
 
     if (!fileContent) {
       return {
@@ -50,9 +50,11 @@ exports.handler = async (event, context) => {
     const mediaType = matches[1];
     const base64Data = matches[2];
 
+    // Use client-provided date for accurate timezone handling
+    // Fall back to server date if not provided (backwards compatibility)
     const today = new Date();
-    const todayFormatted = today.toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
-    const currentYear = today.getFullYear();
+    const todayFormatted = clientDate || today.toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
+    const currentYear = clientYear || today.getFullYear();
     const nextYear = currentYear + 1;
 
     const systemPrompt = `You are a calendar event extraction assistant. Extract all events from the provided document and return them as JSON.

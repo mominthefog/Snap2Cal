@@ -1159,6 +1159,16 @@
                 const fileContent = await fileToBase64(selectedFile);
                 
                 // Call backend function
+                // Send local date to server for accurate date parsing
+                const now = new Date();
+                const localDate = now.toLocaleDateString('en-US', {
+                    weekday: 'long',
+                    year: 'numeric',
+                    month: 'long',
+                    day: 'numeric'
+                });
+                const localYear = now.getFullYear();
+
                 const response = await fetch('/.netlify/functions/parse-pdf', {
                     method: 'POST',
                     headers: {
@@ -1166,7 +1176,9 @@
                     },
                     body: JSON.stringify({
                         fileContent: fileContent,
-                        fileName: selectedFile.name
+                        fileName: selectedFile.name,
+                        clientDate: localDate,
+                        clientYear: localYear
                     })
                 });
                 
