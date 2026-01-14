@@ -52,10 +52,23 @@
         }
         
         .subtitle {
-            color: #666;
             text-align: center;
             margin-bottom: 30px;
+        }
+
+        .subtitle .headline {
+            color: #333;
+            font-size: 1.4em;
+            font-weight: 500;
+            display: block;
+            margin-bottom: 8px;
+        }
+
+        .subtitle .tagline {
+            color: #7c8b9a;
             font-size: 1.1em;
+            font-weight: 400;
+            letter-spacing: 0.5px;
         }
         
         .upload-section {
@@ -152,7 +165,11 @@
                 font-size: 2em;
             }
 
-            .subtitle {
+            .subtitle .headline {
+                font-size: 1.25em;
+            }
+
+            .subtitle .tagline {
                 font-size: 1em;
             }
 
@@ -219,8 +236,15 @@
             }
 
             .subtitle {
-                font-size: 0.9em;
                 margin-bottom: 20px;
+            }
+
+            .subtitle .headline {
+                font-size: 1.1em;
+            }
+
+            .subtitle .tagline {
+                font-size: 0.9em;
             }
 
             .upload-section {
@@ -681,7 +705,10 @@
 <body>
     <div class="container">
         <img src="Snap2CalLogos/Snap2Cal_Logo_500px.png" alt="Snap2Cal Logo" class="logo">
-        <p class="subtitle">Transform Images into Calendar Events<br>One Snap. Zero Mental Load.</p>
+        <p class="subtitle">
+            <span class="headline">Transform Images into Calendar Events</span>
+            <span class="tagline">One Snap. Zero Mental Load.</span>
+        </p>
 
         <div id="howItWorks" class="how-it-works">
             <h2>How it works</h2>
