@@ -1374,7 +1374,9 @@
                 });
                 
                 if (!response.ok) {
-                    throw new Error(`Server error: ${response.status}`);
+                    const error = new Error(`Server error: ${response.status}`);
+                    error.status = response.status;
+                    throw error;
                 }
                 
                 const data = await response.json();
@@ -1397,6 +1399,27 @@
                 }
             } catch (error) {
                 console.error('Error:', error);
+
+                let errorMessage;
+                if (error.status === 400) {
+                    errorMessage = "The file is too large to process. Please try a smaller image or take a screenshot of the document instead.";
+                } else if (error.status === 500) {
+                    errorMessage = "Something went wrong on our end. Please try again in a moment.";
+                } else if (!navigator.onLine) {
+                    errorMessage = "You appear to be offline. Please check your internet connection and try again.";
+                } else {
+                    errorMessage = "Something went wrong while processing your image. Please try again.";
+                }
+
+                eventsPreview.innerHTML = `
+                    <div style="background: #fef2f2; border: 1px solid #fecaca; border-radius: 8px; padding: 20px;">
+                        <h3 style="color: #991b1b; margin-bottom: 12px; font-size: 1.1em;">Oops!</h3>
+                        <p style="color: #555; line-height: 1.6; margin-bottom: 0;">${errorMessage}</p>
+                    </div>
+                `;
+                eventsPreview.style.display = 'block';
+                addToCalendarBtn.style.display = 'none';
+                document.getElementById('reportProblemLink').style.display = 'block';
             } finally {
                 processBtn.disabled = false;
                 processBtn.innerHTML = `
