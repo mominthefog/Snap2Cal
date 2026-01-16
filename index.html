@@ -1345,8 +1345,9 @@
             `;
 
             try {
-                // Convert file to base64
-                const fileContent = await fileToBase64(selectedFile);
+                // Compress image if needed, then convert to base64
+                const processedFile = await compressImage(selectedFile);
+                const fileContent = await fileToBase64(processedFile);
                 
                 // Call backend function
                 // Send local date to server for accurate date parsing
@@ -1493,6 +1494,66 @@
                 reader.onload = () => resolve(reader.result);
                 reader.onerror = reject;
                 reader.readAsDataURL(file);
+            });
+        }
+
+        // Compress image to stay under Netlify's 1MB limit
+        function compressImage(file, maxSizeKB = 700, maxDimension = 1600) {
+            return new Promise((resolve, reject) => {
+                // If not an image, return as-is
+                if (!file.type.startsWith('image/')) {
+                    resolve(file);
+                    return;
+                }
+
+                const img = new Image();
+                const canvas = document.createElement('canvas');
+                const ctx = canvas.getContext('2d');
+
+                img.onload = () => {
+                    // Calculate new dimensions
+                    let { width, height } = img;
+                    if (width > maxDimension || height > maxDimension) {
+                        if (width > height) {
+                            height = (height / width) * maxDimension;
+                            width = maxDimension;
+                        } else {
+                            width = (width / height) * maxDimension;
+                            height = maxDimension;
+                        }
+                    }
+
+                    canvas.width = width;
+                    canvas.height = height;
+                    ctx.drawImage(img, 0, 0, width, height);
+
+                    // Try different quality levels to get under maxSizeKB
+                    let quality = 0.8;
+                    const tryCompress = () => {
+                        canvas.toBlob(
+                            (blob) => {
+                                if (blob.size > maxSizeKB * 1024 && quality > 0.3) {
+                                    quality -= 0.1;
+                                    tryCompress();
+                                } else {
+                                    // Create a new File from the blob
+                                    const compressedFile = new File([blob], file.name, {
+                                        type: 'image/jpeg',
+                                        lastModified: Date.now()
+                                    });
+                                    console.log(`Compressed: ${(file.size/1024).toFixed(0)}KB → ${(compressedFile.size/1024).toFixed(0)}KB`);
+                                    resolve(compressedFile);
+                                }
+                            },
+                            'image/jpeg',
+                            quality
+                        );
+                    };
+                    tryCompress();
+                };
+
+                img.onerror = reject;
+                img.src = URL.createObjectURL(file);
             });
         }
         
