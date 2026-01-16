@@ -459,6 +459,17 @@
             background: #d1fae5;
         }
 
+        .event-edit-button {
+            background: #e0e7ff;
+            color: #4f46e5;
+            text-decoration: none;
+            margin-left: 8px;
+        }
+
+        .event-edit-button:hover {
+            background: #c7d2fe;
+        }
+
         .event-button-icon {
             width: 16px;
             height: 16px;
@@ -1380,6 +1391,9 @@
                 });
 
                 if (response.ok) {
+                    const createdEvent = await response.json();
+                    const editLink = createdEvent.htmlLink;
+
                     button.classList.add('added');
                     button.innerHTML = `
                         <svg class="event-button-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -1389,6 +1403,24 @@
                         <span class="event-button-text">Added</span>
                     `;
                     eventCard.classList.add('added');
+
+                    // Add "Edit" button to open event in Google Calendar
+                    if (editLink) {
+                        const editButton = document.createElement('a');
+                        editButton.href = editLink;
+                        editButton.target = '_blank';
+                        editButton.rel = 'noopener noreferrer';
+                        editButton.className = 'event-button event-edit-button';
+                        editButton.innerHTML = `
+                            <svg class="event-button-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
+                                <polyline points="15 3 21 3 21 9"></polyline>
+                                <line x1="10" y1="14" x2="21" y2="3"></line>
+                            </svg>
+                            <span class="event-button-text">Edit</span>
+                        `;
+                        button.insertAdjacentElement('afterend', editButton);
+                    }
                 } else {
                     const errorText = await response.text();
                     console.error('Failed to add event:', event, errorText);
