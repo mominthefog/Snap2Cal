@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Snap2Cal Analytics - Admin Dashboard</title>
+    <meta name="description" content="Analytics dashboard for Snap2Cal user intelligence">
+    <link rel="icon" type="image/svg+xml" href="Snap2CalLogos/Favicons/Snap2Cal_favicon01_charcoal.svg">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: linear-gradient(to bottom, #FFFFFF 0%, #a1bed1 100%);
+            min-height: 100vh;
+            padding: 40px 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        h1 {
+            color: #333;
+            margin-bottom: 10px;
+            font-size: 2.5em;
+            text-align: center;
+        }
+
+        .subtitle {
+            text-align: center;
+            color: #666;
+            margin-bottom: 40px;
+        }
+
+        .admin-stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-bottom: 40px;
+        }
+
+        .stat-card {
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+
+        .stat-value {
+            font-size: 2.5rem;
+            font-weight: 600;
+            color: #a1bed1;
+            margin-bottom: 8px;
+        }
+
+        .stat-label {
+            font-size: 0.875rem;
+            color: #666;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .admin-section {
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+        }
+
+        .admin-section h2 {
+            font-size: 1.5rem;
+            color: #333;
+            margin-bottom: 20px;
+        }
+
+        .email-list {
+            max-height: 400px;
+            overflow-y: auto;
+        }
+
+        .email-item {
+            padding: 12px 0;
+            border-bottom: 1px solid #e5e7eb;
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr;
+            gap: 16px;
+            align-items: center;
+            font-size: 0.875rem;
+        }
+
+        .email-item:last-child {
+            border-bottom: none;
+        }
+
+        .email-address {
+            font-weight: 500;
+            color: #333;
+        }
+
+        .email-source {
+            color: #666;
+        }
+
+        .email-date {
+            color: #999;
+            font-size: 0.8125rem;
+        }
+
+        .export-button {
+            display: inline-block;
+            margin-top: 20px;
+            padding: 12px 24px;
+            background: #a1bed1;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 0.875rem;
+            font-weight: 600;
+            transition: background 0.2s ease;
+        }
+
+        .export-button:hover {
+            background: #8fafc4;
+        }
+
+        @media (max-width: 768px) {
+            .email-item {
+                grid-template-columns: 1fr;
+                gap: 8px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Snap2Cal Analytics Dashboard</h1>
+        <p class="subtitle">User intelligence and email capture analytics</p>
+
+        <!-- Stats Grid -->
+        <div class="admin-stats-grid">
+            <div class="stat-card">
+                <div class="stat-value" id="unique-users-count">0</div>
+                <div class="stat-label">Unique Users</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value" id="email-captures-count">0</div>
+                <div class="stat-label">Email Captures</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value" id="page-views-count">0</div>
+                <div class="stat-label">Page Views</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value" id="sessions-count">0</div>
+                <div class="stat-label">Sessions</div>
+            </div>
+        </div>
+
+        <!-- Email Captures Section -->
+        <div class="admin-section">
+            <h2>Email Captures</h2>
+            <div class="email-list" id="email-list">
+                <p>Loading emails...</p>
+            </div>
+            <button class="export-button" id="export-emails-btn">Export Email List (CSV)</button>
+        </div>
+
+        <!-- Recent Activity Section -->
+        <div class="admin-section">
+            <h2>Recent Activity</h2>
+            <div id="activity-list">
+                <p>Loading activity...</p>
+            </div>
+        </div>
+    </div>
+
+    <script src="analytics.js"></script>
+    <script>
+        // Admin Dashboard for Snap2Cal Analytics
+        (function() {
+            'use strict';
+
+            function formatDate(dateString) {
+                const date = new Date(dateString);
+                return date.toLocaleDateString('en-US', {
+                    year: 'numeric',
+                    month: 'short',
+                    day: 'numeric',
+                    hour: '2-digit',
+                    minute: '2-digit'
+                });
+            }
+
+            function updateStats() {
+                if (!window.Snap2CalAnalytics) {
+                    setTimeout(updateStats, 100);
+                    return;
+                }
+
+                const analytics = window.Snap2CalAnalytics.getStoredAnalytics();
+                const emails = window.Snap2CalAnalytics.getStoredEmails();
+                
+                const uniqueUsers = new Set(analytics.map(item => item.userID));
+                document.getElementById('unique-users-count').textContent = uniqueUsers.size;
+                
+                const uniqueEmails = new Set(emails.map(item => item.email.toLowerCase()));
+                document.getElementById('email-captures-count').textContent = uniqueEmails.size;
+                
+                document.getElementById('page-views-count').textContent = analytics.length;
+                
+                const uniqueSessions = new Set(analytics.map(item => item.sessionID));
+                document.getElementById('sessions-count').textContent = uniqueSessions.size;
+            }
+
+            function displayEmails() {
+                const emails = window.Snap2CalAnalytics ? window.Snap2CalAnalytics.getStoredEmails() : [];
+                const emailList = document.getElementById('email-list');
+                
+                if (emails.length === 0) {
+                    emailList.innerHTML = '<p>No email captures yet.</p>';
+                    return;
+                }
+
+                emails.sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp));
+
+                emailList.innerHTML = emails.map(email => `
+                    <div class="email-item">
+                        <div class="email-address">${escapeHtml(email.email)}</div>
+                        <div class="email-source">Source: ${escapeHtml(email.source || 'unknown')}</div>
+                        <div class="email-date">${formatDate(email.timestamp)}</div>
+                    </div>
+                `).join('');
+            }
+
+            function displayActivity() {
+                const analytics = window.Snap2CalAnalytics ? window.Snap2CalAnalytics.getStoredAnalytics() : [];
+                const activityList = document.getElementById('activity-list');
+                
+                if (analytics.length === 0) {
+                    activityList.innerHTML = '<p>No activity data yet.</p>';
+                    return;
+                }
+
+                const recentActivity = analytics
+                    .sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp))
+                    .slice(0, 20);
+
+                activityList.innerHTML = recentActivity.map(item => `
+                    <div class="email-item">
+                        <div class="email-address">${escapeHtml(item.page)}</div>
+                        <div class="email-source">User: ${escapeHtml(item.userID.substring(0, 12))}...</div>
+                        <div class="email-date">${formatDate(item.timestamp)}</div>
+                    </div>
+                `).join('');
+            }
+
+            function exportEmails() {
+                const emails = window.Snap2CalAnalytics ? window.Snap2CalAnalytics.getStoredEmails() : [];
+                
+                if (emails.length === 0) {
+                    alert('No emails to export.');
+                    return;
+                }
+
+                const headers = ['Email', 'User ID', 'Source', 'Timestamp', 'Page'];
+                const rows = emails.map(email => [
+                    email.email,
+                    email.userID,
+                    email.source || 'unknown',
+                    email.timestamp,
+                    email.page || 'unknown'
+                ]);
+
+                const csvContent = [
+                    headers.join(','),
+                    ...rows.map(row => row.map(cell => `"${String(cell).replace(/"/g, '""')}"`).join(','))
+                ].join('\n');
+
+                const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+                const link = document.createElement('a');
+                const url = URL.createObjectURL(blob);
+                link.setAttribute('href', url);
+                link.setAttribute('download', `snap2cal-emails-${new Date().toISOString().split('T')[0]}.csv`);
+                link.style.visibility = 'hidden';
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+            }
+
+            function escapeHtml(text) {
+                const div = document.createElement('div');
+                div.textContent = text;
+                return div.innerHTML;
+            }
+
+            function initDashboard() {
+                if (!window.Snap2CalAnalytics) {
+                    setTimeout(initDashboard, 100);
+                    return;
+                }
+
+                updateStats();
+                displayEmails();
+                displayActivity();
+
+                const exportBtn = document.getElementById('export-emails-btn');
+                if (exportBtn) {
+                    exportBtn.addEventListener('click', exportEmails);
+                }
+
+                setInterval(() => {
+                    updateStats();
+                    displayEmails();
+                    displayActivity();
+                }, 5000);
+            }
+
+            if (document.readyState === 'loading') {
+                document.addEventListener('DOMContentLoaded', initDashboard);
+            } else {
+                initDashboard();
+            }
+        })();
+    </script>
+</body>
+</html>

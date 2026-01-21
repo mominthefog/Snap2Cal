@@ -882,11 +882,39 @@
                 margin-bottom: 4px;
             }
 
-            .why-sign-in p {
-                font-size: 0.65em;
-                line-height: 1.4;
-            }
+        .why-sign-in p {
+            font-size: 0.65em;
+            line-height: 1.4;
         }
+    }
+
+    /* Email Capture Form Styles */
+    .snap2cal-email-form input[type="email"]:focus {
+        outline: none;
+        border-color: #a1bed1;
+        box-shadow: 0 0 0 3px rgba(161, 190, 209, 0.1);
+    }
+
+    .email-form-button:disabled {
+        opacity: 0.6;
+        cursor: not-allowed;
+    }
+
+    .email-form-message {
+        font-size: 0.875rem;
+    }
+
+    .email-form-message.success {
+        background-color: #d1fae5;
+        color: #065f46;
+        border: 1px solid #a7f3d0;
+    }
+
+    .email-form-message.error {
+        background-color: #fee2e2;
+        color: #991b1b;
+        border: 1px solid #fecaca;
+    }
     </style>
 </head>
 <body>
@@ -973,6 +1001,25 @@
                     </div>
                 </form>
             </div>
+        </div>
+
+        <!-- Email Capture Section -->
+        <div style="background: linear-gradient(135deg, #f0f4ff 0%, #e8f0fe 100%); border-radius: 12px; padding: 24px; margin: 30px 0; text-align: center;">
+            <h3 style="color: #3b402b; margin-bottom: 12px; font-size: 1.2em; font-weight: 600;">Stay Updated on Snap2Cal</h3>
+            <p style="color: #555; margin-bottom: 20px; font-size: 0.95em;">Get notified about product updates, new features, and tips for getting the most out of Snap2Cal.</p>
+            <form class="snap2cal-email-form" data-source="homepage" style="max-width: 400px; margin: 0 auto;">
+                <input 
+                    type="email" 
+                    placeholder="Enter your email address" 
+                    required
+                    style="width: 100%; padding: 12px; border: 1px solid #d0dfe6; border-radius: 8px; font-size: 1em; margin-bottom: 12px; font-family: inherit;"
+                    aria-label="Email address for Snap2Cal updates"
+                >
+                <button type="submit" class="email-form-button" data-original-text="Subscribe" style="width: 100%; padding: 12px; background: #a1bed1; color: white; border: none; border-radius: 8px; font-size: 1em; font-weight: 600; cursor: pointer; transition: all 0.2s ease;">
+                    Subscribe
+                </button>
+                <div class="email-form-message" style="display: none; margin-top: 12px; padding: 12px; border-radius: 8px; font-size: 0.9em;"></div>
+            </form>
         </div>
 
         <div class="footer">
@@ -2060,5 +2107,7 @@
             initializeGoogleSignIn();
         };
     </script>
+    <script src="analytics.js"></script>
+    <script src="email-capture.js"></script>
 </body>
 </html>
