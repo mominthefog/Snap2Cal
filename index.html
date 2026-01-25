@@ -1394,9 +1394,32 @@
                 if (response.ok) {
                     userInfo = await response.json();
                     localStorage.setItem('google_user_info', JSON.stringify(userInfo));
+
+                    // Log user to Google Sheets
+                    logUserToSheet(userInfo);
                 }
             } catch (error) {
                 console.error('Error fetching user info:', error);
+            }
+        }
+
+        async function logUserToSheet(user) {
+            try {
+                await fetch('/.netlify/functions/log-user', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        email: user.email,
+                        name: user.name,
+                        googleId: user.id,
+                        picture: user.picture
+                    })
+                });
+            } catch (error) {
+                // Silent fail - don't interrupt user experience for logging
+                console.error('Error logging user:', error);
             }
         }
         
