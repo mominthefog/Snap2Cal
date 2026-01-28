@@ -1030,6 +1030,9 @@
     </div>
 
     <script>
+        // Capacitor detection
+        const isCapacitor = window.Capacitor !== undefined;
+
         let selectedFile = null;
         let extractedEvents = [];
         let accessToken = null;
@@ -1236,15 +1239,25 @@
         }
 
         // Google Sign-In Configuration
-        const CLIENT_ID = '406862514908-nio59o975hs7k038g3jo40tf51pelk7g.apps.googleusercontent.com';
+        const WEB_CLIENT_ID = '406862514908-nio59o975hs7k038g3jo40tf51pelk7g.apps.googleusercontent.com';
+        const IOS_CLIENT_ID = '406862514908-vpkcj0altrgjo9puga6aiq7bs1o4ativ.apps.googleusercontent.com';
+        const CLIENT_ID = isCapacitor ? IOS_CLIENT_ID : WEB_CLIENT_ID;
         const SCOPES = 'https://www.googleapis.com/auth/calendar.events https://www.googleapis.com/auth/userinfo.profile https://www.googleapis.com/auth/userinfo.email';
 
+        // Redirect URI for native app OAuth (reversed iOS client ID)
+        const NATIVE_REDIRECT_URI = 'com.googleusercontent.apps.406862514908-vpkcj0altrgjo9puga6aiq7bs1o4ativ:/';
+
         // Exchange authorization code for tokens (including refresh token)
-        async function exchangeCodeForTokens(code) {
+        async function exchangeCodeForTokens(code, redirectUri = null) {
+            const body = { code };
+            if (redirectUri) {
+                body.redirect_uri = redirectUri;
+            }
+
             const response = await fetch('/.netlify/functions/exchange-code', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ code })
+                body: JSON.stringify(body)
             });
 
             if (!response.ok) {
@@ -1328,34 +1341,98 @@
 
         // Initialize Google Sign-In
         function initializeGoogleSignIn() {
-            // Use authorization code flow to get refresh tokens
-            const codeClient = google.accounts.oauth2.initCodeClient({
-                client_id: CLIENT_ID,
-                scope: SCOPES,
-                ux_mode: 'popup',
-                callback: async (response) => {
-                    if (response.error) {
-                        console.error('Auth error:', response.error);
-                        return;
-                    }
-
-                    try {
-                        const tokens = await exchangeCodeForTokens(response.code);
-                        await handleAuthSuccess(tokens);
-                    } catch (error) {
-                        console.error('Token exchange failed:', error);
-                    }
-                },
-            });
-
-            // Create sign-in button
+            // Create sign-in button first to ensure it's always visible
             const signInButton = document.createElement('button');
             signInButton.textContent = 'Sign in with Google';
-            signInButton.onclick = () => {
-                codeClient.requestCode();
-            };
-
             document.getElementById('googleSignIn').appendChild(signInButton);
+
+            console.log('Initializing Google Sign-In, isCapacitor:', isCapacitor);
+
+            if (isCapacitor) {
+                // Native app: use system browser for OAuth
+                console.log('Setting up native OAuth flow');
+
+                // Setup the click handler for native OAuth
+                signInButton.onclick = async () => {
+                    try {
+                        const { Browser } = Capacitor.Plugins;
+                        const authUrl = new URL('https://accounts.google.com/o/oauth2/v2/auth');
+                        authUrl.searchParams.set('client_id', CLIENT_ID);
+                        authUrl.searchParams.set('redirect_uri', NATIVE_REDIRECT_URI);
+                        authUrl.searchParams.set('response_type', 'code');
+                        authUrl.searchParams.set('scope', SCOPES);
+                        authUrl.searchParams.set('access_type', 'offline');
+                        authUrl.searchParams.set('prompt', 'consent');
+
+                        console.log('Opening browser for OAuth:', authUrl.toString());
+                        await Browser.open({ url: authUrl.toString() });
+                    } catch (error) {
+                        console.error('Error opening browser:', error);
+                        alert('Error opening sign-in: ' + error.message);
+                    }
+                };
+
+                // Listen for app URL open events (OAuth callback)
+                try {
+                    const { Browser, App } = Capacitor.Plugins;
+                    App.addListener('appUrlOpen', async (event) => {
+                        console.log('App opened with URL:', event.url);
+                        if (event.url.includes('code=')) {
+                            // Parse the code from the URL manually (custom URL schemes don't work with new URL())
+                            const queryString = event.url.split('?')[1];
+                            if (queryString) {
+                                const params = new URLSearchParams(queryString);
+                                const code = params.get('code');
+                                console.log('Extracted auth code:', code ? 'found' : 'not found');
+                                if (code) {
+                                    try {
+                                        await Browser.close();
+                                        const tokens = await exchangeCodeForTokens(code, NATIVE_REDIRECT_URI);
+                                        await handleAuthSuccess(tokens);
+                                    } catch (error) {
+                                        console.error('OAuth callback error:', error);
+                                        alert('Sign-in failed: ' + error.message);
+                                    }
+                                }
+                            }
+                        }
+                    });
+                    console.log('App URL listener registered');
+                } catch (error) {
+                    console.error('Error setting up URL listener:', error);
+                }
+            } else {
+                // Web: use Google Identity Services
+                try {
+                    const codeClient = google.accounts.oauth2.initCodeClient({
+                        client_id: CLIENT_ID,
+                        scope: SCOPES,
+                        ux_mode: 'popup',
+                        callback: async (response) => {
+                            if (response.error) {
+                                console.error('Auth error:', response.error);
+                                return;
+                            }
+
+                            try {
+                                const tokens = await exchangeCodeForTokens(response.code);
+                                await handleAuthSuccess(tokens);
+                            } catch (error) {
+                                console.error('Token exchange failed:', error);
+                            }
+                        },
+                    });
+
+                    signInButton.onclick = () => {
+                        codeClient.requestCode();
+                    };
+                } catch (error) {
+                    console.error('Error initializing Google Sign-In:', error);
+                    signInButton.onclick = () => {
+                        alert('Google Sign-In not available. Please try again later.');
+                    };
+                }
+            }
 
             // Try to restore previous session using refresh token
             const savedRefreshToken = localStorage.getItem('google_refresh_token');

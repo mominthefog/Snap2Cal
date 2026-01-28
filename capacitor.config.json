@@ -1,0 +1,13 @@
+{
+  "appId": "com.snap2cal.app",
+  "appName": "Snap2Cal",
+  "webDir": "www",
+  "server": {
+    "hostname": "snap2cal.app",
+    "androidScheme": "https",
+    "iosScheme": "https"
+  },
+  "ios": {
+    "contentInset": "automatic"
+  }
+}
