@@ -1238,6 +1238,9 @@
             }, 2500);
         }
 
+        // API base URL (absolute URL needed for Capacitor)
+        const API_BASE = isCapacitor ? 'https://snap2cal.netlify.app' : '';
+
         // Google Sign-In Configuration
         const WEB_CLIENT_ID = '406862514908-nio59o975hs7k038g3jo40tf51pelk7g.apps.googleusercontent.com';
         const IOS_CLIENT_ID = '406862514908-vpkcj0altrgjo9puga6aiq7bs1o4ativ.apps.googleusercontent.com';
@@ -1254,7 +1257,7 @@
                 body.redirect_uri = redirectUri;
             }
 
-            const response = await fetch('/.netlify/functions/exchange-code', {
+            const response = await fetch(API_BASE + '/.netlify/functions/exchange-code', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(body)
@@ -1273,7 +1276,7 @@
             if (!refreshToken) return false;
 
             try {
-                const response = await fetch('/.netlify/functions/refresh-token', {
+                const response = await fetch(API_BASE + '/.netlify/functions/refresh-token', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ refresh_token: refreshToken })
@@ -1378,21 +1381,18 @@
                     App.addListener('appUrlOpen', async (event) => {
                         console.log('App opened with URL:', event.url);
                         if (event.url.includes('code=')) {
-                            // Parse the code from the URL manually (custom URL schemes don't work with new URL())
-                            const queryString = event.url.split('?')[1];
-                            if (queryString) {
-                                const params = new URLSearchParams(queryString);
-                                const code = params.get('code');
-                                console.log('Extracted auth code:', code ? 'found' : 'not found');
-                                if (code) {
-                                    try {
-                                        await Browser.close();
-                                        const tokens = await exchangeCodeForTokens(code, NATIVE_REDIRECT_URI);
-                                        await handleAuthSuccess(tokens);
-                                    } catch (error) {
-                                        console.error('OAuth callback error:', error);
-                                        alert('Sign-in failed: ' + error.message);
-                                    }
+                            // Extract code using regex (more reliable than URLSearchParams for custom schemes)
+                            const codeMatch = event.url.match(/code=([^&]+)/);
+                            const code = codeMatch ? decodeURIComponent(codeMatch[1]) : null;
+                            console.log('Extracted auth code:', code ? 'found' : 'not found');
+                            if (code) {
+                                try {
+                                    await Browser.close();
+                                    const tokens = await exchangeCodeForTokens(code, NATIVE_REDIRECT_URI);
+                                    await handleAuthSuccess(tokens);
+                                } catch (error) {
+                                    console.error('OAuth callback error:', error);
+                                    alert('Sign-in failed: ' + error.message);
                                 }
                             }
                         }
@@ -1482,7 +1482,7 @@
 
         async function logUserToSheet(user) {
             try {
-                await fetch('/.netlify/functions/log-user', {
+                await fetch(API_BASE + '/.netlify/functions/log-user', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json'
@@ -1717,7 +1717,7 @@
                 });
                 const localYear = now.getFullYear();
 
-                const response = await fetch('/.netlify/functions/parse-pdf', {
+                const response = await fetch(API_BASE + '/.netlify/functions/parse-pdf', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
