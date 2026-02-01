@@ -8,6 +8,13 @@
 # Order matters: specific paths before catch-all
 # ===========================================
 
+# --- Assets: serve static files before any catch-all rewrites ---
+[[redirects]]
+  from = "/assets/*"
+  to = "/assets/:splat"
+  status = 200
+  force = true
+
 # --- snap2cal.ai (landing) ---
 [[redirects]]
   from = "https://snap2cal.ai/privacy"
