@@ -18,19 +18,146 @@
             background: white;
             border-radius: 20px;
             padding: 40px;
-            max-width: 560px;
+            max-width: 640px;
             margin: 0 auto;
             box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
         }
         .logo { width: 180px; max-width: 100%; height: auto; display: block; margin: 0 auto 20px; }
-        h1 { color: #333; margin-bottom: 10px; font-size: 2.2em; text-align: center; }
-        .headline { color: #333; font-size: 1.3em; font-weight: 500; display: block; margin-bottom: 8px; text-align: center; }
-        .tagline { color: #7c8b9a; font-size: 1.05em; font-weight: 400; text-align: center; margin-bottom: 24px; }
-        .scarcity { background: linear-gradient(135deg, #f0f4ff 0%, #e8f0fe 100%); border-radius: 12px; padding: 14px 18px; margin-bottom: 24px; text-align: center; font-size: 0.95em; color: #3b402b; border-left: 4px solid #a1bed1; }
-        .how-it-works { background: #f8f9ff; border-radius: 12px; padding: 20px; margin-bottom: 24px; }
-        .how-it-works h2 { font-size: 1.1em; color: #3b402b; margin-bottom: 12px; }
-        .how-it-works ul { list-style: none; }
-        .how-it-works li { padding: 6px 0; color: #555; font-size: 0.95em; }
+        
+        /* Hero Section */
+        h1 { 
+            color: #3b402b; 
+            margin-bottom: 32px; 
+            font-size: 2.5em; 
+            text-align: center; 
+            font-weight: 700;
+            line-height: 1.2;
+        }
+        
+        /* Visual Demo Component */
+        .visual-demo {
+            margin-bottom: 32px;
+            background: #f8f9ff;
+            border-radius: 12px;
+            padding: 24px;
+        }
+        .demo-content {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 20px;
+            margin-bottom: 16px;
+        }
+        .demo-flyer, .demo-calendar {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+        }
+        .demo-flyer img, .demo-calendar img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        }
+        .demo-arrow {
+            flex-shrink: 0;
+            width: 32px;
+            height: 32px;
+            color: #a1bed1;
+        }
+        .demo-arrow svg {
+            width: 100%;
+            height: 100%;
+        }
+        .demo-subtitle {
+            text-align: center;
+            font-size: 0.9em;
+            color: #7c8b9a;
+            font-style: italic;
+        }
+        
+        /* Tagline & Audience */
+        .tagline-section {
+            text-align: center;
+            margin-bottom: 24px;
+        }
+        .tagline { 
+            color: #3b402b; 
+            font-size: 1.5em; 
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+        .audience {
+            color: #D4A59A;
+            font-size: 1.05em;
+            font-weight: 500;
+        }
+        
+        /* Beta Notice */
+        .scarcity { 
+            background: linear-gradient(135deg, #f0f4ff 0%, #e8f0fe 100%); 
+            border-radius: 12px; 
+            padding: 14px 18px; 
+            margin-bottom: 24px; 
+            text-align: center; 
+            font-size: 0.95em; 
+            color: #3b402b; 
+            border-left: 4px solid #a1bed1; 
+        }
+        
+        /* How It Works */
+        .how-it-works { 
+            background: #f8f9ff; 
+            border-radius: 12px; 
+            padding: 20px; 
+            margin-bottom: 24px; 
+        }
+        .how-it-works h2 { 
+            font-size: 1.1em; 
+            color: #3b402b; 
+            margin-bottom: 12px; 
+        }
+        .how-it-works ul { 
+            list-style: none; 
+            margin-bottom: 12px;
+        }
+        .how-it-works li { 
+            padding: 6px 0; 
+            color: #555; 
+            font-size: 0.95em; 
+        }
+        .how-it-works li strong {
+            color: #3b402b;
+        }
+        .google-note {
+            font-size: 0.85em;
+            color: #7c8b9a;
+            text-align: center;
+            margin-top: 8px;
+        }
+        
+        /* Testimonial */
+        .testimonial {
+            background: #f8f9ff;
+            border-radius: 12px;
+            border-left: 4px solid #a1bed1;
+            padding: 20px;
+            margin-bottom: 24px;
+            text-align: center;
+        }
+        .testimonial blockquote {
+            font-size: 0.95em;
+            font-style: italic;
+            color: #3b402b;
+            margin-bottom: 8px;
+        }
+        .testimonial cite {
+            font-size: 0.85em;
+            color: #7c8b9a;
+            font-style: normal;
+        }
+        
+        /* Forms */
         .signup-form input[type="email"] {
             width: 100%;
             padding: 14px 16px;
@@ -44,7 +171,7 @@
             outline: none;
             border-color: #a1bed1;
         }
-        .signup-form button {
+        .signup-form button, .primary-cta {
             width: 100%;
             padding: 14px 24px;
             background: #d4a088;
@@ -57,15 +184,126 @@
             font-family: inherit;
             box-shadow: 0 4px 12px rgba(212, 160, 136, 0.4);
         }
-        .signup-form button:hover:not(:disabled) { background: #c48e78; }
-        .signup-form button:disabled { opacity: 0.7; cursor: not-allowed; }
-        .form-message { margin-top: 12px; padding: 12px; border-radius: 8px; font-size: 0.9em; display: none; }
-        .form-message.success { background: #d1fae5; color: #065f46; display: block; }
-        .form-message.error { background: #fee2e2; color: #991b1b; display: block; }
-        .codes-section { display: none; margin-top: 24px; padding-top: 24px; border-top: 1px solid #eee; }
-        .codes-section.show { display: block; }
-        .codes-title { font-size: 1.1em; font-weight: 600; color: #3b402b; margin-bottom: 12px; text-align: center; }
-        .code-list { display: flex; flex-direction: column; gap: 10px; margin-bottom: 20px; }
+        .signup-form button:hover:not(:disabled), .primary-cta:hover:not(:disabled) { 
+            background: #c48e78; 
+        }
+        .signup-form button:disabled, .primary-cta:disabled { 
+            opacity: 0.7; 
+            cursor: not-allowed; 
+        }
+        .form-message { 
+            margin-top: 12px; 
+            padding: 12px; 
+            border-radius: 8px; 
+            font-size: 0.9em; 
+            display: none; 
+        }
+        .form-message.success { 
+            background: #d1fae5; 
+            color: #065f46; 
+            display: block; 
+        }
+        .form-message.error { 
+            background: #fee2e2; 
+            color: #991b1b; 
+            display: block; 
+        }
+        
+        /* Privacy Note */
+        .privacy-note {
+            text-align: center;
+            font-size: 0.85em;
+            color: #7c8b9a;
+            margin-top: 16px;
+            margin-bottom: 20px;
+        }
+        
+        /* Secondary CTA */
+        .secondary-cta {
+            text-align: center;
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 1px solid #eee;
+        }
+        .secondary-cta a { 
+            color: #a1bed1; 
+            font-weight: 600;
+            font-size: 0.95em;
+            text-decoration: none;
+        }
+        .secondary-cta a:hover { 
+            color: #764ba2; 
+        }
+        
+        /* Inline Code Entry */
+        .code-entry-inline {
+            margin-top: 16px;
+            padding: 16px;
+            background: #f8f9ff;
+            border-radius: 10px;
+        }
+        .code-entry-inline input {
+            width: 100%;
+            padding: 12px 16px;
+            border: 2px solid #d4a088;
+            border-radius: 10px;
+            font-size: 1em;
+            margin-bottom: 12px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            font-weight: 600;
+            text-align: center;
+            font-family: inherit;
+        }
+        .code-entry-inline input:focus {
+            outline: none;
+            border-color: #a1bed1;
+            box-shadow: 0 0 0 3px rgba(161, 190, 209, 0.3);
+        }
+        .code-entry-inline button {
+            width: 100%;
+            padding: 12px 24px;
+            background: #d4a088;
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-weight: 600;
+            cursor: pointer;
+            font-family: inherit;
+        }
+        .code-entry-inline button:hover {
+            background: #c48e78;
+        }
+        .code-error {
+            color: #991b1b;
+            font-size: 0.9em;
+            margin-top: 8px;
+            text-align: center;
+        }
+        
+        /* Codes Section */
+        .codes-section { 
+            display: none; 
+            margin-top: 24px; 
+            padding-top: 24px; 
+            border-top: 1px solid #eee; 
+        }
+        .codes-section.show { 
+            display: block; 
+        }
+        .codes-title { 
+            font-size: 1.1em; 
+            font-weight: 600; 
+            color: #3b402b; 
+            margin-bottom: 12px; 
+            text-align: center; 
+        }
+        .code-list { 
+            display: flex; 
+            flex-direction: column; 
+            gap: 10px; 
+            margin-bottom: 20px; 
+        }
         .code-item {
             background: #f8f9ff;
             padding: 12px 16px;
@@ -77,10 +315,23 @@
             justify-content: space-between;
             align-items: center;
         }
-        .code-item.used { opacity: 0.6; }
-        .code-copy { font-size: 0.85em; color: #a1bed1; cursor: pointer; font-weight: 600; }
-        .code-copy:hover { color: #764ba2; }
-        .cta-use { display: block; text-align: center; margin-top: 16px; }
+        .code-item.used { 
+            opacity: 0.6; 
+        }
+        .code-copy { 
+            font-size: 0.85em; 
+            color: #a1bed1; 
+            cursor: pointer; 
+            font-weight: 600; 
+        }
+        .code-copy:hover { 
+            color: #764ba2; 
+        }
+        .cta-use { 
+            display: block; 
+            text-align: center; 
+            margin-top: 16px; 
+        }
         .cta-use a {
             display: inline-block;
             background: linear-gradient(135deg, #a1bed1 0%, #764ba2 100%);
@@ -91,45 +342,124 @@
             text-decoration: none;
             box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
         }
-        .cta-use a:hover { opacity: 0.95; color: white; }
-        .have-code { text-align: center; margin-top: 20px; padding-top: 20px; border-top: 1px solid #eee; }
-        .have-code a { color: #a1bed1; font-weight: 600; }
-        .have-code a:hover { color: #764ba2; }
-        .footer { text-align: center; margin-top: 30px; padding-top: 20px; border-top: 1px solid #eee; font-size: 0.9em; color: #666; }
-        .footer a { color: #a1bed1; }
-        .footer a:hover { color: #764ba2; }
+        .cta-use a:hover { 
+            opacity: 0.95; 
+            color: white; 
+        }
+        
+        /* Footer */
+        .footer { 
+            text-align: center; 
+            margin-top: 30px; 
+            padding-top: 20px; 
+            border-top: 1px solid #eee; 
+            font-size: 0.9em; 
+            color: #666; 
+        }
+        .footer a { 
+            color: #a1bed1; 
+        }
+        .footer a:hover { 
+            color: #764ba2; 
+        }
+        
+        /* Mobile Responsive */
         @media (max-width: 768px) {
-            .container { padding: 24px; }
-            h1 { font-size: 1.8em; }
+            .container { 
+                padding: 24px; 
+            }
+            h1 { 
+                font-size: 2em; 
+            }
+            .tagline {
+                font-size: 1.3em;
+            }
+            .demo-content {
+                flex-direction: column;
+            }
+            .demo-arrow {
+                transform: rotate(90deg);
+            }
+        }
+        @media (max-width: 480px) {
+            h1 {
+                font-size: 1.7em;
+            }
+            .tagline {
+                font-size: 1.15em;
+            }
+            .audience {
+                font-size: 0.95em;
+            }
         }
     </style>
 </head>
 <body>
     <div class="container">
         <img src="Snap2CalLogos/Snap2Cal_Logo_500px.png" alt="Snap2Cal Logo" class="logo">
-        <h1>One Snap. Zero Mental Load.</h1>
-        <span class="headline">Transform event flyers into calendar events in seconds</span>
-        <span class="tagline">Built for busy parents and professionals</span>
+        
+        <!-- Hero Section -->
+        <h1>Never type another event into your calendar.</h1>
+        
+        <!-- Visual Demo Component -->
+        <div class="visual-demo">
+            <div class="demo-content">
+                <div class="demo-flyer">
+                    <img src="assets/flyer-spring-fair.png" alt="Example event flyer" class="flyer-image">
+                </div>
+                <div class="demo-arrow">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M5 12h14M12 5l7 7-7 7"/>
+                    </svg>
+                </div>
+                <div class="demo-calendar">
+                    <img src="assets/calendar-card-mockup.png" alt="Calendar event card" class="calendar-image">
+                </div>
+            </div>
+            <p class="demo-subtitle">Works with flyers, schedules, and invitations</p>
+        </div>
+        
+        <!-- Tagline & Audience -->
+        <div class="tagline-section">
+            <p class="tagline">One Snap. Zero Mental Load.</p>
+            <p class="audience">Because someone has to remember soccer practice.</p>
+        </div>
 
         <div class="scarcity">
-            Limited beta — Join the waitlist to get your invite codes and be first to try Snap2Cal.
+            Limited beta. Join the waitlist to get your invite codes and be first to try Snap2Cal.
         </div>
 
         <div class="how-it-works">
             <h2>How it works</h2>
             <ul>
-                <li>Connect your Google account</li>
-                <li>Snap or upload an image of an event flyer, schedule, or invitation</li>
-                <li>AI extracts the details — add them to your calendar with one click</li>
+                <li><strong>Snap a photo</strong> of any flyer, schedule, or invite</li>
+                <li><strong>AI extracts</strong> the event details automatically</li>
+                <li><strong>Add to calendar</strong> with one tap</li>
             </ul>
+            <p class="google-note">Connects securely with Google Calendar</p>
+        </div>
+        
+        <!-- Testimonial Section -->
+        <div class="testimonial">
+            <blockquote>"Finally, an app that gets it."</blockquote>
+            <cite>— Beta tester</cite>
         </div>
 
         <div id="signupSection">
             <form class="signup-form" id="signupForm">
                 <input type="email" id="emailInput" placeholder="Enter your email" required aria-label="Email for beta access">
-                <button type="submit" id="signupBtn">Join the beta</button>
+                <button type="submit" id="signupBtn" class="primary-cta">Join the Waitlist</button>
                 <div class="form-message" id="formMessage"></div>
             </form>
+            <p class="privacy-note">Your images are processed and never stored. Your calendar stays yours.</p>
+            <div class="secondary-cta">
+                <a href="#" id="haveCodeLink">I have a code</a>
+            </div>
+            <div class="code-entry-inline" id="codeEntryInline" style="display: none;">
+                <input type="text" id="codeInput" placeholder="Enter your invite code" maxlength="14" autocomplete="off">
+                <button type="button" id="codeSubmitBtn">Use Code</button>
+                <div class="code-error" id="codeError" style="display: none;"></div>
+            </div>
         </div>
 
         <div class="codes-section" id="codesSection">
@@ -139,10 +469,6 @@
             <div class="cta-use">
                 <a href="#" id="openAppLink">Use a code and open Snap2Cal</a>
             </div>
-        </div>
-
-        <div class="have-code">
-            Already have a code? <a href="#" id="haveCodeLink">Open the app</a>
         </div>
 
         <div class="footer">
@@ -166,6 +492,60 @@
         }
 
         document.getElementById('haveCodeLink').href = getAppUrl();
+
+        // Handle "I have a code" link click - expand inline entry
+        document.getElementById('haveCodeLink').addEventListener('click', function(e) {
+            e.preventDefault();
+            const codeEntry = document.getElementById('codeEntryInline');
+            if (codeEntry.style.display === 'none') {
+                codeEntry.style.display = 'block';
+                this.textContent = 'Hide code entry';
+            } else {
+                codeEntry.style.display = 'none';
+                this.textContent = 'I have a code';
+            }
+        });
+
+        // Handle inline code submission
+        document.getElementById('codeSubmitBtn').addEventListener('click', async function() {
+            const codeInput = document.getElementById('codeInput');
+            const errorEl = document.getElementById('codeError');
+            const code = codeInput.value.trim().toUpperCase();
+            
+            if (!code) {
+                errorEl.textContent = 'Please enter a code';
+                errorEl.style.display = 'block';
+                return;
+            }
+            
+            this.disabled = true;
+            this.textContent = 'Validating...';
+            errorEl.style.display = 'none';
+            
+            try {
+                const res = await fetch('/.netlify/functions/validate-invite-code', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ code: code })
+                });
+                const result = await res.json();
+                
+                if (result.valid) {
+                    // Redirect to app with code
+                    window.location.href = getAppUrlWithCode(code);
+                } else {
+                    errorEl.textContent = result.reason === 'used' ? 'This code has already been used' : 'Invalid code';
+                    errorEl.style.display = 'block';
+                    this.disabled = false;
+                    this.textContent = 'Use Code';
+                }
+            } catch (err) {
+                errorEl.textContent = 'Could not validate code. Please try again.';
+                errorEl.style.display = 'block';
+                this.disabled = false;
+                this.textContent = 'Use Code';
+            }
+        });
 
         document.getElementById('signupForm').addEventListener('submit', async (e) => {
             e.preventDefault();
