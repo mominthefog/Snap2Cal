@@ -8,10 +8,16 @@
 # Order matters: specific paths before catch-all
 # ===========================================
 
-# --- Assets: serve static files before any catch-all rewrites ---
+# --- Static assets: serve before any catch-all rewrites ---
 [[redirects]]
   from = "/assets/*"
   to = "/assets/:splat"
+  status = 200
+  force = true
+
+[[redirects]]
+  from = "/Snap2CalLogos/*"
+  to = "/Snap2CalLogos/:splat"
   status = 200
   force = true
 
