@@ -6,7 +6,7 @@
     "test": "jest",
     "test:watch": "jest --watch",
     "test:coverage": "jest --coverage",
-    "build": "rm -rf www && mkdir -p www && cp index.html admin.html faq.html privacy.html terms.html analytics.js email-capture.js apple-touch-icon.png www/ && cp -r Snap2CalLogos www/",
+    "build": "rm -rf www && mkdir -p www && cp index.html landing.html admin.html faq.html privacy.html terms.html analytics.js email-capture.js apple-touch-icon.png www/ && cp -r Snap2CalLogos www/",
     "cap:sync": "npm run build && npx cap sync",
     "cap:open:ios": "npx cap open ios",
     "prepare": "husky"

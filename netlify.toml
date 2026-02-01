@@ -3,9 +3,107 @@
   functions = "netlify/functions"
   publish = "."
 
+# ===========================================
+# Domain split: snap2cal.ai = landing, app.snap2cal.ai = app
+# Order matters: specific paths before catch-all
+# ===========================================
+
+# --- snap2cal.ai (landing) ---
+[[redirects]]
+  from = "https://snap2cal.ai/privacy"
+  to = "/privacy.html"
+  status = 200
+  force = true
+
+[[redirects]]
+  from = "https://snap2cal.ai/terms"
+  to = "/terms.html"
+  status = 200
+  force = true
+
+[[redirects]]
+  from = "https://snap2cal.ai/faq"
+  to = "/faq.html"
+  status = 200
+  force = true
+
+[[redirects]]
+  from = "https://snap2cal.ai/*"
+  to = "/landing.html"
+  status = 200
+  force = true
+
+# --- www.snap2cal.ai (landing) ---
+[[redirects]]
+  from = "https://www.snap2cal.ai/privacy"
+  to = "/privacy.html"
+  status = 200
+  force = true
+
+[[redirects]]
+  from = "https://www.snap2cal.ai/terms"
+  to = "/terms.html"
+  status = 200
+  force = true
+
+[[redirects]]
+  from = "https://www.snap2cal.ai/faq"
+  to = "/faq.html"
+  status = 200
+  force = true
+
+[[redirects]]
+  from = "https://www.snap2cal.ai/*"
+  to = "/landing.html"
+  status = 200
+  force = true
+
+# --- app.snap2cal.ai (app) ---
+[[redirects]]
+  from = "https://app.snap2cal.ai/privacy"
+  to = "/privacy.html"
+  status = 200
+  force = true
+
+[[redirects]]
+  from = "https://app.snap2cal.ai/terms"
+  to = "/terms.html"
+  status = 200
+  force = true
+
+[[redirects]]
+  from = "https://app.snap2cal.ai/faq"
+  to = "/faq.html"
+  status = 200
+  force = true
+
+[[redirects]]
+  from = "https://app.snap2cal.ai/*"
+  to = "/index.html"
+  status = 200
+  force = true
+
+# ===========================================
+# Fallback rules (for netlify.app and local dev)
+# ===========================================
 [[redirects]]
   from = "/privacy"
   to = "/privacy.html"
+  status = 200
+
+[[redirects]]
+  from = "/terms"
+  to = "/terms.html"
+  status = 200
+
+[[redirects]]
+  from = "/faq"
+  to = "/faq.html"
+  status = 200
+
+[[redirects]]
+  from = "/landing"
+  to = "/landing.html"
   status = 200
 
 [[redirects]]

@@ -80,6 +80,24 @@ Snap2Cal is a web application that uses AI to extract calendar events from PDF d
 - Events are added to your primary calendar only
 - No event editing before adding to calendar (planned for v2)
 
+## Beta Launch
+
+Snap2Cal includes a beta launch setup:
+
+- **Landing page** (`/landing.html`) — Marketing page at snap2cal.ai with waitlist signup
+- **Invite codes** — Gated access: 3 codes per signup, viral sharing
+- **App gate** — Web app at app.snap2cal.ai requires a valid invite code (Capacitor/iOS bypasses gate)
+- **Email drip** — Resend integration for welcome emails and drip campaigns
+
+See [docs/GOTM_PLAN.md](docs/GOTM_PLAN.md) for go-to-market strategy, email copy, and setup.
+
+### Netlify environment variables
+
+- `SUPABASE_URL`, `SUPABASE_SERVICE_KEY` — Required for subscribe and invite codes
+- `RESEND_API_KEY` — Optional: adds contacts and sends welcome email
+- `RESEND_FROM_EMAIL` — Optional: e.g. `Snap2Cal <hello@snap2cal.ai>`
+- `SNAP2CAL_APP_URL` — Optional: app URL for email links (default: `https://app.snap2cal.ai`)
+
 ## Roadmap
 
 ### Version 2.0
