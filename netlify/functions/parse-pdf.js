@@ -57,6 +57,12 @@ exports.handler = async (event, context) => {
     const currentYear = clientYear || today.getFullYear();
     const nextYear = currentYear + 1;
 
+    // Compute todayISO (YYYY-MM-DD) for unambiguous date comparison
+    const parsedDate = new Date(todayFormatted);
+    const todayISO = !isNaN(parsedDate.getTime())
+      ? `${parsedDate.getFullYear()}-${String(parsedDate.getMonth() + 1).padStart(2, '0')}-${String(parsedDate.getDate()).padStart(2, '0')}`
+      : today.toISOString().slice(0, 10);
+
     const systemPrompt = `You are a calendar event extraction assistant. Extract all events from the provided document and return them as JSON.
 
 Your response must be a JSON object with this structure:
@@ -77,10 +83,11 @@ HANDLING PARTIAL INFORMATION:
 - If an event has a date but no clear title, include it with summary "Untitled Event" and note what you saw in the description
 - Always include whatever details you can extract — users can edit events after adding them
 
-HANDLING DATES:
-- Today's date is: ${todayFormatted}
-- If no year is specified, assume the current year (${currentYear})
-- If the date has already passed this year, assume next year (${nextYear})
+HANDLING DATES (CRITICAL):
+- Today's date is: ${todayFormatted} (${todayISO}). Use this as the ONLY reference for "today" — ignore any other notion of the current date.
+- If no year is specified, assume the current year (${currentYear}).
+- Only use next year (${nextYear}) if the event's month-and-day has ALREADY OCCURRED in the current year. Any date that falls AFTER today in the calendar should use the current year (${currentYear}).
+- Example: If today is January 29, 2026, then "March 15" = March 15, 2026 (upcoming); "December 25" = December 25, 2026. Do NOT assume March or later months have passed.
 - If no specific time is mentioned, use the "date" format for all-day events
 - Only use "dateTime" when a specific time is clearly stated
 
@@ -123,7 +130,7 @@ IMPORTANT:
               },
               {
                 type: 'text',
-                text: `Extract all calendar events from this document (${fileName}). Return as JSON object with events array and message.`
+                text: `Today is ${todayFormatted}. Extract all calendar events from this document (${fileName}). Return as JSON object with events array and message.`
               }
             ]
           }

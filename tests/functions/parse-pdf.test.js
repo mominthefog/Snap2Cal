@@ -130,5 +130,43 @@ describe('parse-pdf function', () => {
       expect(body.events).toEqual([]);
       expect(body.message).toContain('trouble reading');
     });
+
+    test('passes client date context to Claude API in system prompt and user message', async () => {
+      const clientDate = 'Thursday, January 29, 2026';
+      const clientYear = 2026;
+
+      fetch.mockImplementation((url, options) => {
+        const requestBody = JSON.parse(options.body);
+        expect(requestBody.system).toContain(clientDate);
+        expect(requestBody.system).toContain('2026-01-29');
+        expect(requestBody.system).toContain(String(clientYear));
+        expect(requestBody.system).toContain('Do NOT assume March or later months have passed');
+
+        const userText = requestBody.messages[0].content.find(c => c.type === 'text').text;
+        expect(userText).toContain(`Today is ${clientDate}`);
+        expect(userText).toContain('Extract all calendar events');
+
+        return Promise.resolve({
+          ok: true,
+          json: async () => ({
+            content: [{ text: JSON.stringify({ events: [], message: 'No events' }) }]
+          })
+        });
+      });
+
+      const event = {
+        httpMethod: 'POST',
+        body: JSON.stringify({
+          fileContent: 'data:image/png;base64,iVBORw0KGgo=',
+          fileName: 'flyer.png',
+          clientDate,
+          clientYear
+        })
+      };
+      const result = await handler(event, {});
+
+      expect(result.statusCode).toBe(200);
+      expect(fetch).toHaveBeenCalled();
+    });
   });
 });
