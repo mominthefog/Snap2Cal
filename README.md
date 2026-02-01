@@ -2,7 +2,7 @@
 
 **Convert PDFs and images to Google Calendar events instantly**
 
-Snap2Cal is a web application that uses AI to extract calendar events from PDF documents and images, then seamlessly adds them to your Google Calendar.
+Snap2Cal is a commercial web and mobile application that uses AI to extract calendar events from PDF documents and images, then seamlessly adds them to your Google Calendar. Available at [snap2cal.ai](https://snap2cal.ai).
 
 ## Features
 
@@ -12,129 +12,99 @@ Snap2Cal is a web application that uses AI to extract calendar events from PDF d
 ✅ Event preview and review before adding  
 ✅ Direct integration with Google Calendar  
 ✅ Clean, modern UI with real-time status updates  
+✅ Invite code system for controlled beta access  
+✅ Native iOS app (coming soon to App Store)
 
 ## How It Works
 
-1. **Sign in** with your Google account
-2. **Upload** a PDF or image containing event information
-3. **AI extracts** event details (title, date, time, location, description)
-4. **Review** the parsed events
-5. **Confirm** to add all events to your Google Calendar
-
-## Development Setup
-
-### Prerequisites
-
-- A Google account
-- An OpenAI API key ([Get one here](https://platform.openai.com/api-keys))
-- Google Cloud Console project with Calendar API enabled
-
-### Local Development
-
-1. **Clone this repository**
-   ```bash
-   git clone https://github.com/mominthefog/Snap2Cal.git
-   cd Snap2Cal
-   ```
-
-2. **Configure Google OAuth**
-   - Go to [Google Cloud Console](https://console.cloud.google.com/)
-   - Create/select your project
-   - Enable **Google Calendar API**
-   - Create **OAuth 2.0 Client ID** (Web application)
-   - Add authorized JavaScript origins:
-     - `http://localhost:8000`
-     - `http://127.0.0.1:8000`
-   - Copy your Client ID and update it in `index.html` (line 72)
-
-3. **Run locally**
-   ```bash
-   python3 -m http.server 8000
-   ```
-   Then visit: `http://localhost:8000`
-
-4. **Get your OpenAI API key**
-   - Visit [platform.openai.com/api-keys](https://platform.openai.com/api-keys)
-   - Create a new API key
-   - Enter it in the app (stored locally in your browser)
+1. **Sign up** for beta access at [snap2cal.ai](https://snap2cal.ai)
+2. **Sign in** with your Google account at [app.snap2cal.ai](https://app.snap2cal.ai)
+3. **Upload** a PDF or image containing event information
+4. **AI extracts** event details (title, date, time, location, description)
+5. **Review** the parsed events
+6. **Confirm** to add all events to your Google Calendar
 
 ## Tech Stack
 
-- **React** (via CDN) - Frontend framework
-- **Tailwind CSS** (via CDN) - Styling
-- **OpenAI API** - Document analysis and event extraction
+- **React** - Frontend framework
+- **Tailwind CSS** - Modern UI styling
+- **Supabase** - Backend database and authentication
+- **Netlify Functions** - Serverless API endpoints
+- **OpenAI API** - AI-powered document analysis and event extraction
 - **Google Calendar API** - Calendar integration
-- **Google OAuth 2.0** - Authentication
+- **Google OAuth 2.0** - Secure authentication
+- **Capacitor** - iOS native app wrapper
+- **Resend** - Transactional email service
 
 ## Privacy & Security
 
-- Your OpenAI API key is stored **locally** in your browser
-- It is **never** sent to any server except OpenAI
-- Google authentication uses **OAuth 2.0** standard security
-- No backend server - runs entirely in your browser
+- Secure OAuth 2.0 authentication with Google
+- Your OpenAI API key is stored locally in your browser and never sent to our servers
+- Calendar access is scoped to only what's needed for adding events
+- Invite code system ensures controlled, secure beta access
+- All data transmission uses HTTPS encryption
 
-## Current Limitations
+## Beta Access
 
-- OpenAI works best with image-based PDFs
-- For text-heavy PDFs, consider converting pages to images first
-- Events are added to your primary calendar only
-- No event editing before adding to calendar (planned for v2)
+Snap2Cal is currently in **private beta** with invite-only access:
 
-## Beta Launch
+- **Landing page** at [snap2cal.ai](https://snap2cal.ai) — Sign up for the waitlist
+- **Invite system** — Each beta user receives 3 invite codes to share
+- **Gated access** — Web app requires a valid invite code to access
+- **Email automation** — Welcome emails and feature updates via Resend
+- **Viral growth** — Designed for organic sharing through invite codes
 
-Snap2Cal includes a beta launch setup:
-
-- **Landing page** (`/landing.html`) — Marketing page at snap2cal.ai with waitlist signup
-- **Invite codes** — Gated access: 3 codes per signup, viral sharing
-- **App gate** — Web app at app.snap2cal.ai requires a valid invite code (Capacitor/iOS bypasses gate)
-- **Email drip** — Resend integration for welcome emails and drip campaigns
-
-See [docs/GOTM_PLAN.md](docs/GOTM_PLAN.md) for go-to-market strategy, email copy, and setup.
-
-### Netlify environment variables
-
-- `SUPABASE_URL`, `SUPABASE_SERVICE_KEY` — Required for subscribe and invite codes
-- `RESEND_API_KEY` — Optional: adds contacts and sends welcome email
-- `RESEND_FROM_EMAIL` — Optional: e.g. `Snap2Cal <hello@snap2cal.ai>`
-- `SNAP2CAL_APP_URL` — Optional: app URL for email links (default: `https://app.snap2cal.ai`)
+Join the beta at [snap2cal.ai](https://snap2cal.ai) to get early access and help shape the product.
 
 ## Roadmap
 
-### Version 2.0
-- [ ] Native iOS app for App Store distribution
-- [ ] Switch to Anthropic API for better PDF handling
-- [ ] Event editing interface
-- [ ] Multiple calendar selection
-- [ ] Recurring event detection
-- [ ] Batch file upload
-- [ ] Time zone selection
-- [ ] Event color coding
+### Upcoming Features
+- Native iOS app (App Store release Q1 2026)
+- Enhanced PDF processing with Anthropic API
+- Event editing before adding to calendar
+- Multiple calendar selection
+- Recurring event detection
+- Batch file upload support
+- Time zone selection
+- Event color coding and categories
+- Calendar sharing and collaboration features
 
-## Troubleshooting
+## Support
 
-### "Error 400: redirect_uri_mismatch"
-Make sure your Google Cloud Console authorized JavaScript origins match the URL you're accessing the app from (e.g., `http://localhost:8000`).
+For technical support, feature requests, or general inquiries:
+- Visit [snap2cal.ai](https://snap2cal.ai)
+- Email: hello@snap2cal.ai
+- Follow updates on social media
 
-### "Access blocked: This app's request is invalid"
-Your redirect URIs in Google Cloud Console don't match. Double-check both the port number and protocol (http://).
+### Known Limitations
 
-### Events not parsing correctly
-OpenAI performs best with image-based PDFs. If you have a text PDF with poor results, try:
-1. Converting pages to images first
-2. Ensuring dates are in a clear format (MM/DD/YYYY)
-3. Checking that event information is visually distinct
+- AI works best with image-based PDFs and clear event formats
+- Events are currently added to your primary Google Calendar only
+- Recurring events require manual review
 
-## License
+## About This Repository
 
-Copyright © 2025 Amanda Worsfold / AmandaMade Digital Studio. All rights reserved.
+This repository contains the source code for Snap2Cal, a commercial product developed by AmandaMade Digital Studio. The code is shared publicly for portfolio and transparency purposes only.
 
-This code is provided for portfolio and demonstration purposes. Commercial use, distribution, or reproduction without explicit permission is prohibited.
+### License & Commercial Use
 
-## Contact
+**© 2025 Amanda Worsfold / AmandaMade Digital Studio. All rights reserved.**
 
-For questions or collaboration inquiries, please reach out via GitHub.
+This is proprietary commercial software. **All rights reserved.**
+
+- ❌ No permission is granted to use, copy, modify, merge, publish, distribute, sublicense, or sell this software
+- ❌ No permission is granted to use this code for commercial purposes
+- ❌ No permission is granted to create derivative works
+- ✅ You may view this code for educational or portfolio review purposes only
+
+For licensing inquiries or partnership opportunities, contact hello@snap2cal.ai
+
+## About AmandaMade Digital Studio
+
+Snap2Cal is built by [AmandaMade Digital Studio](https://amandamade.digital), specializing in AI-powered productivity tools and user-centric software design.
 
 ---
 
-*Snap2Cal is currently in development. App Store release coming soon.*  
-*Created by AmandaMade Digital Studio*
+**🚀 Get early access:** [snap2cal.ai](https://snap2cal.ai)  
+**📱 App Store release:** Q1 2026  
+**💼 Created by:** [AmandaMade Digital Studio](https://amandamade.digital)
