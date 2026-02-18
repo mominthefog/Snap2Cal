@@ -218,134 +218,6 @@
             margin-bottom: 20px;
         }
         
-        /* Secondary CTA */
-        .secondary-cta {
-            text-align: center;
-            margin-top: 20px;
-            padding-top: 20px;
-            border-top: 1px solid #eee;
-        }
-        .secondary-cta a { 
-            color: #a1bed1; 
-            font-weight: 600;
-            font-size: 0.95em;
-            text-decoration: none;
-        }
-        .secondary-cta a:hover { 
-            color: #764ba2; 
-        }
-        
-        /* Inline Code Entry */
-        .code-entry-inline {
-            margin-top: 16px;
-            padding: 16px;
-            background: #f8f9ff;
-            border-radius: 10px;
-        }
-        .code-entry-inline input {
-            width: 100%;
-            padding: 12px 16px;
-            border: 2px solid #d4a088;
-            border-radius: 10px;
-            font-size: 1em;
-            margin-bottom: 12px;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            font-weight: 600;
-            text-align: center;
-            font-family: inherit;
-        }
-        .code-entry-inline input:focus {
-            outline: none;
-            border-color: #a1bed1;
-            box-shadow: 0 0 0 3px rgba(161, 190, 209, 0.3);
-        }
-        .code-entry-inline button {
-            width: 100%;
-            padding: 12px 24px;
-            background: #d4a088;
-            color: white;
-            border: none;
-            border-radius: 10px;
-            font-weight: 600;
-            cursor: pointer;
-            font-family: inherit;
-        }
-        .code-entry-inline button:hover {
-            background: #c48e78;
-        }
-        .code-error {
-            color: #991b1b;
-            font-size: 0.9em;
-            margin-top: 8px;
-            text-align: center;
-        }
-        
-        /* Codes Section */
-        .codes-section { 
-            display: none; 
-            margin-top: 24px; 
-            padding-top: 24px; 
-            border-top: 1px solid #eee; 
-        }
-        .codes-section.show { 
-            display: block; 
-        }
-        .codes-title { 
-            font-size: 1.1em; 
-            font-weight: 600; 
-            color: #3b402b; 
-            margin-bottom: 12px; 
-            text-align: center; 
-        }
-        .code-list { 
-            display: flex; 
-            flex-direction: column; 
-            gap: 10px; 
-            margin-bottom: 20px; 
-        }
-        .code-item {
-            background: #f8f9ff;
-            padding: 12px 16px;
-            border-radius: 8px;
-            font-family: monospace;
-            font-size: 1em;
-            letter-spacing: 1px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-        .code-item.used { 
-            opacity: 0.6; 
-        }
-        .code-copy { 
-            font-size: 0.85em; 
-            color: #a1bed1; 
-            cursor: pointer; 
-            font-weight: 600; 
-        }
-        .code-copy:hover { 
-            color: #764ba2; 
-        }
-        .cta-use { 
-            display: block; 
-            text-align: center; 
-            margin-top: 16px; 
-        }
-        .cta-use a {
-            display: inline-block;
-            background: linear-gradient(135deg, #a1bed1 0%, #764ba2 100%);
-            color: white;
-            padding: 14px 28px;
-            border-radius: 10px;
-            font-weight: 600;
-            text-decoration: none;
-            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
-        }
-        .cta-use a:hover { 
-            opacity: 0.95; 
-            color: white; 
-        }
         
         /* Footer */
         .footer { 
@@ -426,7 +298,7 @@
         </div>
 
         <div class="scarcity">
-            Limited beta. Join the waitlist to get your invite codes and be first to try Snap2Cal.
+            Free to use. Try Snap2Cal today and never type another event into your calendar.
         </div>
 
         <div class="how-it-works">
@@ -446,29 +318,8 @@
         </div>
 
         <div id="signupSection">
-            <form class="signup-form" id="signupForm">
-                <input type="email" id="emailInput" placeholder="Enter your email" required aria-label="Email for beta access">
-                <button type="submit" id="signupBtn" class="primary-cta">Join the Waitlist</button>
-                <div class="form-message" id="formMessage"></div>
-            </form>
+            <a href="#" id="tryAppLink" class="primary-cta" style="display: block; text-align: center; text-decoration: none;">Try Snap2Cal</a>
             <p class="privacy-note">Your images are processed and never stored. Your calendar stays yours.</p>
-            <div class="secondary-cta">
-                <a href="#" id="haveCodeLink">I have a code</a>
-            </div>
-            <div class="code-entry-inline" id="codeEntryInline" style="display: none;">
-                <input type="text" id="codeInput" placeholder="Enter your invite code" maxlength="14" autocomplete="off">
-                <button type="button" id="codeSubmitBtn">Use Code</button>
-                <div class="code-error" id="codeError" style="display: none;"></div>
-            </div>
-        </div>
-
-        <div class="codes-section" id="codesSection">
-            <div class="codes-title">Here are your 3 invite codes</div>
-            <p style="text-align: center; font-size: 0.9em; color: #555; margin-bottom: 16px;">Use one yourself and share the rest with friends.</p>
-            <div class="code-list" id="codeList"></div>
-            <div class="cta-use">
-                <a href="#" id="openAppLink">Use a code and open Snap2Cal</a>
-            </div>
         </div>
 
         <div class="footer">
@@ -487,131 +338,7 @@
             return window.location.origin + '/index.html';
         }
 
-        function getAppUrlWithCode(code) {
-            return getAppUrl() + '?code=' + encodeURIComponent(code);
-        }
-
-        document.getElementById('haveCodeLink').href = getAppUrl();
-
-        // Handle "I have a code" link click - expand inline entry
-        document.getElementById('haveCodeLink').addEventListener('click', function(e) {
-            e.preventDefault();
-            const codeEntry = document.getElementById('codeEntryInline');
-            if (codeEntry.style.display === 'none') {
-                codeEntry.style.display = 'block';
-                this.textContent = 'Hide code entry';
-            } else {
-                codeEntry.style.display = 'none';
-                this.textContent = 'I have a code';
-            }
-        });
-
-        // Handle inline code submission
-        document.getElementById('codeSubmitBtn').addEventListener('click', async function() {
-            const codeInput = document.getElementById('codeInput');
-            const errorEl = document.getElementById('codeError');
-            const code = codeInput.value.trim().toUpperCase();
-            
-            if (!code) {
-                errorEl.textContent = 'Please enter a code';
-                errorEl.style.display = 'block';
-                return;
-            }
-            
-            this.disabled = true;
-            this.textContent = 'Validating...';
-            errorEl.style.display = 'none';
-            
-            try {
-                const res = await fetch('/.netlify/functions/validate-invite-code', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ code: code })
-                });
-                const result = await res.json();
-                
-                if (result.valid) {
-                    // Redirect to app with code
-                    window.location.href = getAppUrlWithCode(code);
-                } else {
-                    errorEl.textContent = result.reason === 'used' ? 'This code has already been used' : 'Invalid code';
-                    errorEl.style.display = 'block';
-                    this.disabled = false;
-                    this.textContent = 'Use Code';
-                }
-            } catch (err) {
-                errorEl.textContent = 'Could not validate code. Please try again.';
-                errorEl.style.display = 'block';
-                this.disabled = false;
-                this.textContent = 'Use Code';
-            }
-        });
-
-        document.getElementById('signupForm').addEventListener('submit', async (e) => {
-            e.preventDefault();
-            const email = document.getElementById('emailInput').value.trim();
-            const btn = document.getElementById('signupBtn');
-            const msg = document.getElementById('formMessage');
-
-            if (!email) return;
-
-            btn.disabled = true;
-            btn.textContent = 'Joining...';
-            msg.className = 'form-message';
-            msg.style.display = 'none';
-
-            try {
-                const res = await fetch('/.netlify/functions/subscribe', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ email, source: 'landing' })
-                });
-                const data = await res.json();
-
-                if (!res.ok) {
-                    msg.textContent = data.error || 'Something went wrong. Please try again.';
-                    msg.className = 'form-message error';
-                    msg.style.display = 'block';
-                    btn.disabled = false;
-                    btn.textContent = 'Join the beta';
-                    return;
-                }
-
-                document.getElementById('signupSection').style.display = 'none';
-                document.getElementById('codesSection').classList.add('show');
-
-                const codes = data.codes || [];
-                const list = document.getElementById('codeList');
-                list.innerHTML = codes.map(function (c) {
-                    const used = c.used;
-                    return '<div class="code-item' + (used ? ' used' : '') + '">' +
-                        '<span>' + c.code + '</span>' +
-                        (used ? '<span>Used</span>' : '<span class="code-copy" data-code="' + c.code + '">Copy</span>') +
-                        '</div>';
-                }).join('');
-
-                list.querySelectorAll('.code-copy').forEach(function (el) {
-                    el.addEventListener('click', function () {
-                        const code = el.dataset.code;
-                        navigator.clipboard.writeText(code).then(function () {
-                            el.textContent = 'Copied!';
-                            setTimeout(function () { el.textContent = 'Copy'; }, 2000);
-                        });
-                    });
-                });
-
-                const firstUnused = codes.find(function (c) { return !c.used; });
-                const openLink = document.getElementById('openAppLink');
-                openLink.href = firstUnused ? getAppUrlWithCode(firstUnused.code) : getAppUrl();
-                openLink.textContent = firstUnused ? 'Use a code and open Snap2Cal' : 'Open Snap2Cal';
-            } catch (err) {
-                msg.textContent = 'Could not connect. Please try again.';
-                msg.className = 'form-message error';
-                msg.style.display = 'block';
-                btn.disabled = false;
-                btn.textContent = 'Join the beta';
-            }
-        });
+        document.getElementById('tryAppLink').href = getAppUrl();
     </script>
 </body>
 </html>
